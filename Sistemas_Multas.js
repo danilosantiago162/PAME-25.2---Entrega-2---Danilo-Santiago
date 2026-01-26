@@ -34,6 +34,20 @@ function carregarAgentes() {
 
 }
 
+function carregarMultas() {
+
+    const multas = fs.readFileSync("multas.json", "utf-8");
+    return JSON.parse(multas);
+
+}
+
+function carregarVeiculos() {
+
+    const veiculos = fs.readFileSync("veiculos.json", "utf-8");
+    return JSON.parse(veiculos);
+
+}
+
 function PaginaInicial(){
     var opcao = requisicao.question("\nBem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
     "O que deseja fazer? \n \n" + " Cadastro: Aperte 1 \n login: Aperte 2 \n Sair do Sistema: Aperte 3 \n"
@@ -67,7 +81,7 @@ function PaginaCondutor(condutor){
             //sistema.ver_dados_condutor(condutor);
             PaginaCondutor(condutor);
         case "2":
-            //sistema.ver_minhas_multas(condutor);
+            sistema.ver_minhas_multas(condutor.id_unico);
             PaginaCondutor(condutor);
         case "3":
             sistema.cadastrar_veiculo();
@@ -157,7 +171,7 @@ class Multa{
 class Sistema{
 
     constructor() {
-        this.usuariologado = null;
+        this.condutorlogado = null;
         this.agentelogado = null;
     }
 
@@ -225,9 +239,8 @@ class Sistema{
                 } else {
 
                     console.log("Login realizado com sucesso!");
-                    this.usuariologado = condutor_encontrado;
-                    PaginaCondutor(this.usuariologado);
-                    //condutor_logado();
+                    this.condutorlogado = condutor_encontrado;
+                    PaginaCondutor(this.condutorlogado);// usado para "levar" a variável condutor_encontrado para página do condutorlogado
                 }
                 break;
             case "2":
@@ -242,7 +255,7 @@ class Sistema{
 
                     console.log("Login realizado com sucesso!");
                     this.agentelogado = agente_encontrado;
-                    PaginaAgente(this.agentelogado);
+                    PaginaAgente(this.agentelogado);// usado para "levar" a variável agente_encontrado para página do agentelogado
                     //agente_logado();
                 }
                 break;
@@ -272,6 +285,20 @@ class Sistema{
         console.log("Aplicacao de multa realizada com sucesso!!");
 
         console.log(multa);
+    }
+
+    ver_minhas_multas(id_cliente) {
+
+        let multas = carregarMultas();
+        let multas_encontradas = multas.filter( multa => multa.id_cliente === id_cliente)
+
+        if (multas_encontradas.length === 0){
+            console.log("Nenhuma multa encontrada!")
+            return;
+        }
+
+        console.log(multas_encontradas);
+
     }
 
     cadastrar_veiculo(){
