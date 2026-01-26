@@ -52,6 +52,59 @@ function PaginaInicial(){
     }
 }
 
+function PaginaCondutor(condutor){
+    let opcao = requisicao.question(
+        "\nBem vindo a pagina do condutor, selecione a opcao de interesse:\n" +
+        "Aperte 1: Ver meus dados \n" +
+        "Aperte 2: Ver minhas multas \n"+
+        "Aperte 3: Cadastrar Veiculo \n"+
+        "Aperte 4: Pagar multa \n"+
+        "Aperte 5: Recorrer multa \n"
+        );
+    
+    switch(opcao){
+        case "1":
+            //sistema.ver_dados_condutor(condutor);
+            PaginaCondutor(condutor);
+        case "2":
+            //sistema.ver_minhas_multas(condutor);
+            PaginaCondutor(condutor);
+        case "3":
+            sistema.cadastrar_veiculo();
+            PaginaCondutor(condutor);
+        case "4":
+            //sistema.pagar_multa();
+            PaginaCondutor(condutor);
+        case "5":
+            //sistema.recorrer_multa();
+            PaginaCondutor(condutor);
+        
+    }
+}
+
+function PaginaAgente(agente){
+    let opcao = requisicao.question(
+        "\nBem vindo a pagina do agente, selecione a opcao de interesse:\n" +
+        "Aperte 1: Ver meus dados \n" +
+        "Aperte 2: Ver lista de veiculos \n"+
+        "Aperte 3: Ver lista de condutores \n"+
+        "Aperte 4: Aplicar multa \n"+
+        "Aperte 5: Ver multas \n"+
+        "Aperte 6: Alterar status da multa"
+        );
+    switch(opcao){
+        case "1":
+            console.log(agente);
+        case "2":
+
+        case "3":
+        case "4":
+            sistema.aplicar_multa();
+        case "5":
+        
+    }
+}
+
 class Pessoa {
     constructor(id_unico, nome, cpf, email, senha){
         this.id_unico = id_unico;
@@ -102,6 +155,11 @@ class Multa{
 }
 
 class Sistema{
+
+    constructor() {
+        this.usuariologado = null;
+        this.agentelogado = null;
+    }
 
     cadastro(){
 
@@ -167,6 +225,8 @@ class Sistema{
                 } else {
 
                     console.log("Login realizado com sucesso!");
+                    this.usuariologado = condutor_encontrado;
+                    PaginaCondutor(this.usuariologado);
                     //condutor_logado();
                 }
                 break;
@@ -181,11 +241,53 @@ class Sistema{
                 } else {
 
                     console.log("Login realizado com sucesso!");
+                    this.agentelogado = agente_encontrado;
+                    PaginaAgente(this.agentelogado);
                     //agente_logado();
                 }
+                break;
         }
     }
 
+    aplicar_multa(){
+
+        let id_unico = gerarIdUnico();
+
+        let id_cliente = requisicao.question("Insira o id_unico do multado: ");
+        let tipo_infracao = requisicao.question("Qual o tipo de infracao? ");
+        let valor = requisicao.question("Qual o valor da infracao? ");
+
+        const dia = new Date().getDate();
+        const mes = new Date().getMonth() + 1;
+        const ano = new Date().getFullYear();
+
+        let data_aplicacao = `${dia}/${mes}/${ano}`;
+
+        let status = requisicao.question("Insira o status da multa: ");
+
+        let multa = new Multa(id_unico, id_cliente, tipo_infracao, valor, data_aplicacao, status);
+
+        this.salvar_multa(multa);
+
+        console.log("Aplicacao de multa realizada com sucesso!!");
+
+        console.log(multa);
+    }
+
+    cadastrar_veiculo(){
+        let placa = requisicao.question("Qual a placa do veiculo? ");
+        let modelo = requisicao.question("Qual o modelo do veiculo? ");
+        let marca = requisicao.question("Qual a marca do veiculo? ");
+        let cor = requisicao.question("Qual a cor do veiculo? ");
+
+        let veiculo = new Veiculo(placa, modelo, marca, cor);
+
+        this.salvar_veiculo(veiculo);
+
+        console.log("Cadastro realizado com sucesso!!");
+
+        console.log(veiculo);
+    }
     salvar_condutor(condutor_add){
         let condutores_lista = [];
 
@@ -208,6 +310,30 @@ class Sistema{
         agentes_lista.push(agente_add);
 
         fs.writeFileSync("agentes.json", JSON.stringify(agentes_lista, null, 2));
+    }
+
+    salvar_multa(multa_add){
+        let multas_lista = [];
+
+        if (fs.existsSync("multas.json")){
+            multas_lista = JSON.parse(fs.readFileSync("multas.json", "utf-8"));
+        }
+
+        multas_lista.push(multa_add);
+
+        fs.writeFileSync("multas.json", JSON.stringify(multas_lista, null, 2));
+    }
+
+    salvar_veiculo(veiculo_add){
+        let veiculos_lista = [];
+
+        if (fs.existsSync("veiculos.json")){
+            veiculos_lista = JSON.parse(fs.readFileSync("veiculos.json", "utf-8"));
+        }
+
+        veiculos_lista.push(veiculo_add);
+
+        fs.writeFileSync("veiculos.json", JSON.stringify(veiculos_lista, null, 2));
     }
 
 
