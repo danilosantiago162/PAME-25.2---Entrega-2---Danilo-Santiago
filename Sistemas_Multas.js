@@ -78,7 +78,7 @@ function PaginaCondutor(condutor){
     
     switch(opcao){
         case "1":
-            //sistema.ver_dados_condutor(condutor);
+            sistema.ver_dados_condutor(condutor);
             PaginaCondutor(condutor);
         case "2":
             sistema.ver_minhas_multas(condutor.id_unico);
@@ -87,10 +87,10 @@ function PaginaCondutor(condutor){
             sistema.cadastrar_veiculo();
             PaginaCondutor(condutor);
         case "4":
-            //sistema.pagar_multa();
+            sistema.pagar_multa(condutor.id_unico);
             PaginaCondutor(condutor);
         case "5":
-            //sistema.recorrer_multa();
+            sistema.recorrer_multa(condutor.id_unico);
             PaginaCondutor(condutor);
         
     }
@@ -287,10 +287,14 @@ class Sistema{
         console.log(multa);
     }
 
+    ver_dados_condutor(condutor) {
+        console.log(condutor);
+    }
+
     ver_minhas_multas(id_cliente) {
 
         let multas = carregarMultas();
-        let multas_encontradas = multas.filter( multa => multa.id_cliente === id_cliente)
+        let multas_encontradas = multas.filter( multa => multa.id_cliente === id_cliente);
 
         if (multas_encontradas.length === 0){
             console.log("Nenhuma multa encontrada!")
@@ -298,6 +302,40 @@ class Sistema{
         }
 
         console.log(multas_encontradas);
+
+    }
+
+    pagar_multa(id_cliente) {
+
+        this.ver_minhas_multas(id_cliente);
+
+        let opcao = requisicao.question("Insira o id_unico da multa que quer pagar: ");
+
+        let multas = carregarMultas();
+        let multa_encontrada = multas.find( multa => multa.id_unico === opcao);
+
+        multa_encontrada.status = "paga";
+
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
+
+        console.log("\nMULTA PAGA!!\n");
+
+    }
+
+    recorrer_multa(id_cliente) {
+
+        this.ver_minhas_multas(id_cliente);
+
+        let opcao = requisicao.question("Insira o id_unico da multa que quer recorrer: ");
+
+        let multas = carregarMultas();
+        let multa_encontrada = multas.find( multa => multa.id_unico === opcao);
+
+        multa_encontrada.status = "recorrida";
+
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
+
+        console.log("\nMULTA RECORRIDA!!\n");
 
     }
 
