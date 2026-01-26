@@ -12,6 +12,14 @@ function gerarIdUnico() {
     return `${numeros}${l1}${l2}`;
 }
 
+function gerarNumMatricula() {
+
+    const numMatricula = Math.floor(10000000 + Math.random() * 90000000);
+
+    return `${numMatricula}`;
+
+}
+
 class Pessoa {
     constructor(id_unico, nome, cpf, email, senha){
         this.id_unico = id_unico;
@@ -32,7 +40,7 @@ class Condutor extends Pessoa{
 }
 
 class Agente extends Pessoa{
-    constructor(id_unico, nome, cpf, email, senha,numero_matricula){
+    constructor(id_unico, nome, cpf, email, senha, numero_matricula){
 
         super(id_unico, nome, cpf, email, senha);
         this.numero_matricula = numero_matricula;
@@ -62,22 +70,45 @@ class Multa{
 }
 
 class Sistema{
-    cadastro_condutor(){
+
+    cadastro(){
 
         let id_unico = gerarIdUnico();
         let nome = requisicao.question("Qual seu nome? ");
         let cpf = requisicao.question("Qual seu cpf? ");
         let email = requisicao.question("Insira seu email: ");
         let senha = requisicao.question("Insira sua senha: ");
-        let data_de_nascimento = requisicao.question("Qual sua data de nascimento? ");
 
-        let usuario;
+        let opcao = requisicao.question("Caso queira cadastra um novo condutor aperte 1, caso queira cadastrar um novo agente aperte 2");
 
-        usuario = new Condutor(id_unico, nome, cpf, email, senha, data_de_nascimento);
+        if (opcao == "1"){
+            let data_de_nascimento = requisicao.question("Qual sua data de nascimento? ");
 
-        this.salvar_usuario(usuario);
+            let usuario;
 
-        console.log("Cadastro realizado com sucesso!!");
+            usuario = new Condutor(id_unico, nome, cpf, email, senha, data_de_nascimento);
+
+            this.salvar_usuario(usuario);
+
+            console.log("Cadastro realizado com sucesso!!");
+
+            console.log(usuario);
+        }
+
+        if (opcao == "2"){
+
+            let numero_matricula = gerarNumMatricula();
+
+            let agente;
+
+            agente = new Agente(id_unico, nome, cpf, email, senha, numero_matricula);
+
+            this.salvar_agente(agente);
+
+            console.log("Cadastro realizado com sucesso!!");
+
+            console.log(agente);
+        }
     }
 
     salvar_usuario(usuario_add){
@@ -91,16 +122,37 @@ class Sistema{
 
         fs.writeFileSync("usuarios.json", JSON.stringify(usuarios_lista, null, 2));
     }
+
+    salvar_agente(agente_add){
+        let agentes_lista = [];
+
+        if (fs.existsSync("agentes.json")){
+            agentes_lista = JSON.parse(fs.readFileSync("agentes.json", "utf-8"));
+        }
+
+        agentes_lista.push(agente_add);
+
+        fs.writeFileSync("agentes.json", JSON.stringify(agentes_lista, null, 2));
+    }
+
+
 }
-
-
 
 var sistema = new Sistema();
 
-var opcao = requisicao.question("Aperte 1: ");
+var opcao = requisicao.question("Bem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
+    "O que deseja fazer? \n \n" + " Cadastro: Aperte 1 \n login: Aperte 2 \n Sair do Sistema: Aperte 3"
+);
 
-if (opcao == 1){
-    sistema.cadastro_condutor();
+if (opcao == "1"){
+    sistema.cadastro();
 }
 
+if (opcao == "2"){
+    //sistema.login();
+}
+
+if (opcao == "3"){
+    //sistema.sair();
+}
 
