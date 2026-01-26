@@ -92,6 +92,8 @@ function PaginaCondutor(condutor){
         case "5":
             sistema.recorrer_multa(condutor.id_unico);
             PaginaCondutor(condutor);
+        case "6":
+            sistema.alterar_dados_condutor();
         
     }
 }
@@ -104,17 +106,33 @@ function PaginaAgente(agente){
         "Aperte 3: Ver lista de condutores \n"+
         "Aperte 4: Aplicar multa \n"+
         "Aperte 5: Ver multas \n"+
-        "Aperte 6: Alterar status da multa"
+        "Aperte 6: Alterar status da multa\n"+
+        "Aperte 7: Alterar seus dados\n"
         );
     switch(opcao){
         case "1":
-            console.log(agente);
+            sistema.ver_dados_agente(agente);
+            PaginaAgente(agente);
+            break;
         case "2":
-
+            sistema.ver_lista_veiculos();
+            break;
         case "3":
+            sistema.ver_lista_condutores();
+            PaginaAgente(agente);
+            break;
         case "4":
             sistema.aplicar_multa();
+            PaginaAgente(agente);
+            break;
         case "5":
+            sistema.ver_multas();
+            break;
+        case "6":
+            sistema.alterar_status_multa();
+            break;
+        case "7":
+            sistema.alterar_dados_agente();
         
     }
 }
@@ -262,11 +280,47 @@ class Sistema{
         }
     }
 
+    ver_dados_agente(agente){
+        console.log(agente);
+    }
+
+    ver_lista_veiculos(){
+
+        let veiculos = carregarVeiculos();
+
+        console.log(veiculos);
+    }
+
+    ver_lista_condutores(){
+
+        let condutores = carregarCondutores();
+
+        console.log(condutores);
+    }
+
+    alterar_status_multa(){
+        let multas = carregarMultas();
+
+        let id_unico = requisicao.question("\nInsira o id_unico da multa que deseja alterar o status: ");
+
+        let multa_escolhida = multas.find( multas => multas.id_unico === id_unico);
+
+        let status_novo = requisicao.question("\nInsira o novo status da multa " + multa_escolhida.id_unico +": ");
+
+        multa_escolhida.status = status_novo;
+
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
+
+        console.log("\nSTATUS MUDADO COM SUCESSO!!\n");
+
+        return;
+    }
+
     aplicar_multa(){
 
         let id_unico = gerarIdUnico();
 
-        let id_cliente = requisicao.question("Insira o id_unico do multado: ");
+        let id_cliente = requisicao.question("\nInsira o id_unico do multado: ");
         let tipo_infracao = requisicao.question("Qual o tipo de infracao? ");
         let valor = requisicao.question("Qual o valor da infracao? ");
 
@@ -282,13 +336,22 @@ class Sistema{
 
         this.salvar_multa(multa);
 
-        console.log("Aplicacao de multa realizada com sucesso!!");
+        console.log("\nMULTA APLICADA COM SUCESSO!!\n");
 
         console.log(multa);
     }
 
     ver_dados_condutor(condutor) {
-        console.log(condutor);
+        console.log("\n" + condutor + "\n");
+    }
+
+    ver_multas(){
+
+        let multas = carregarMultas();
+
+        console.log(multas);
+
+        return
     }
 
     ver_minhas_multas(id_cliente) {
@@ -297,7 +360,7 @@ class Sistema{
         let multas_encontradas = multas.filter( multa => multa.id_cliente === id_cliente);
 
         if (multas_encontradas.length === 0){
-            console.log("Nenhuma multa encontrada!")
+            console.log("\nNenhuma multa encontrada!\n")
             return;
         }
 
@@ -309,7 +372,7 @@ class Sistema{
 
         this.ver_minhas_multas(id_cliente);
 
-        let opcao = requisicao.question("Insira o id_unico da multa que quer pagar: ");
+        let opcao = requisicao.question("\nInsira o id_unico da multa que quer pagar: ");
 
         let multas = carregarMultas();
         let multa_encontrada = multas.find( multa => multa.id_unico === opcao);
@@ -326,7 +389,7 @@ class Sistema{
 
         this.ver_minhas_multas(id_cliente);
 
-        let opcao = requisicao.question("Insira o id_unico da multa que quer recorrer: ");
+        let opcao = requisicao.question("\nInsira o id_unico da multa que quer recorrer: ");
 
         let multas = carregarMultas();
         let multa_encontrada = multas.find( multa => multa.id_unico === opcao);
@@ -340,7 +403,7 @@ class Sistema{
     }
 
     cadastrar_veiculo(){
-        let placa = requisicao.question("Qual a placa do veiculo? ");
+        let placa = requisicao.question("\nQual a placa do veiculo? ");
         let modelo = requisicao.question("Qual o modelo do veiculo? ");
         let marca = requisicao.question("Qual a marca do veiculo? ");
         let cor = requisicao.question("Qual a cor do veiculo? ");
@@ -349,10 +412,24 @@ class Sistema{
 
         this.salvar_veiculo(veiculo);
 
-        console.log("Cadastro realizado com sucesso!!");
+        console.log("\nCADASTRO REALIZADO COM SUCESSO!!\n");
 
         console.log(veiculo);
     }
+
+    alterar_dados_condutor(condutor){
+
+        let opcao = requisicao.question(
+            "\nQual dado gostaria de mudar?\n " +
+            "Aperte 1: nome"+
+            "Aperte 2: email"+
+            "Aperte 3: senha"+
+            "Aperte 4: cpf"+
+            "Aperte 5: data de nascimento"
+        );
+        
+    }
+
     salvar_condutor(condutor_add){
         let condutores_lista = [];
 
