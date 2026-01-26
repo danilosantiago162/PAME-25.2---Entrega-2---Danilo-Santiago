@@ -1,0 +1,11 @@
+[
+  {
+    "id_unico": "62822238CW",
+    "nome": "Danilo",
+    "cpf": "123456789",
+    "email": "d@gmail.com",
+    "senha": "1234",
+    "data_de_nascimento": "01/09/2002",
+    "tipo": "condutor"
+  }
+]
