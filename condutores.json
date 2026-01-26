@@ -1,11 +1,11 @@
 [
   {
     "id_unico": "50202868SD",
-    "nome": "d",
-    "cpf": "123",
+    "nome": "kaio",
+    "cpf": "456",
     "email": "456",
     "senha": "456",
-    "data_de_nascimento": "12/05/02",
+    "data_de_nascimento": "07/07/07",
     "tipo": "condutor"
   }
 ]

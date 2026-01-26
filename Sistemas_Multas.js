@@ -50,7 +50,7 @@ function carregarVeiculos() {
 
 function PaginaInicial(){
     var opcao = requisicao.question("\nBem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
-    "O que deseja fazer? \n \n" + " Cadastro: Aperte 1 \n login: Aperte 2 \n Sair do Sistema: Aperte 3 \n"
+    "O que deseja fazer? \n \n" + "Aperte 1: Cadastre-se \nAperte 2: Login \nAperte 3: Sair do Sistema \n"
     );
 
     if (opcao == "1"){
@@ -61,79 +61,94 @@ function PaginaInicial(){
         sistema.login();
     }
 
-    if (opcao == "3"){
-        //sistema.sair();
+    if (opcao === "3") {
+        console.log("Encerrando o sistema...");
+        process.exit(0);
     }
+
 }
 
 function PaginaCondutor(condutor){
-    let opcao = requisicao.question(
-        "\nBem vindo a pagina do condutor, selecione a opcao de interesse:\n" +
-        "Aperte 1: Ver meus dados \n" +
-        "Aperte 2: Ver minhas multas \n"+
-        "Aperte 3: Cadastrar Veiculo \n"+
-        "Aperte 4: Pagar multa \n"+
-        "Aperte 5: Recorrer multa \n"
-        );
-    
-    switch(opcao){
-        case "1":
-            sistema.ver_dados_condutor(condutor);
-            PaginaCondutor(condutor);
-        case "2":
-            sistema.ver_minhas_multas(condutor.id_unico);
-            PaginaCondutor(condutor);
-        case "3":
-            sistema.cadastrar_veiculo();
-            PaginaCondutor(condutor);
-        case "4":
-            sistema.pagar_multa(condutor.id_unico);
-            PaginaCondutor(condutor);
-        case "5":
-            sistema.recorrer_multa(condutor.id_unico);
-            PaginaCondutor(condutor);
-        case "6":
-            sistema.alterar_dados_condutor();
-        
+
+    while (true) { 
+        let opcao = requisicao.question(
+            "\nBem vindo a pagina do condutor, selecione a opcao de interesse:\n" +
+            "Aperte 1: Ver meus dados \n" +
+            "Aperte 2: Ver minhas multas \n"+
+            "Aperte 3: Cadastrar Veiculo \n"+
+            "Aperte 4: Pagar multa \n"+
+            "Aperte 5: Recorrer multa \n"+
+            "Aperte 6: Alterar meus dados\n"
+            ); 
+        switch(opcao){
+            case "1":
+                sistema.ver_dados_condutor(condutor);
+                break;
+            case "2":
+                sistema.ver_minhas_multas(condutor.id_unico);
+                break;
+            case "3":
+                sistema.cadastrar_veiculo();
+                break;
+            case "4":
+                sistema.pagar_multa(condutor.id_unico);
+                break;
+            case "5":
+                sistema.recorrer_multa(condutor.id_unico);
+                break;
+            case "6":
+                sistema.alterar_dados_condutor(condutor);
+                break; 
+            case "0":
+                console.log("\nSaindo da página do condutor...");
+                PaginaInicial();
+            default:
+                console.log("opcao invalida");
+        }
     }
 }
 
 function PaginaAgente(agente){
-    let opcao = requisicao.question(
-        "\nBem vindo a pagina do agente, selecione a opcao de interesse:\n" +
-        "Aperte 1: Ver meus dados \n" +
-        "Aperte 2: Ver lista de veiculos \n"+
-        "Aperte 3: Ver lista de condutores \n"+
-        "Aperte 4: Aplicar multa \n"+
-        "Aperte 5: Ver multas \n"+
-        "Aperte 6: Alterar status da multa\n"+
-        "Aperte 7: Alterar seus dados\n"
-        );
-    switch(opcao){
-        case "1":
-            sistema.ver_dados_agente(agente);
-            PaginaAgente(agente);
-            break;
-        case "2":
-            sistema.ver_lista_veiculos();
-            break;
-        case "3":
-            sistema.ver_lista_condutores();
-            PaginaAgente(agente);
-            break;
-        case "4":
-            sistema.aplicar_multa();
-            PaginaAgente(agente);
-            break;
-        case "5":
-            sistema.ver_multas();
-            break;
-        case "6":
-            sistema.alterar_status_multa();
-            break;
-        case "7":
-            sistema.alterar_dados_agente();
-        
+
+    while (true) { 
+        let opcao = requisicao.question(
+            "\nBem vindo a pagina do agente, selecione a opcao de interesse:\n" +
+            "Aperte 1: Ver meus dados \n" +
+            "Aperte 2: Ver lista de veiculos \n"+
+            "Aperte 3: Ver lista de condutores \n"+
+            "Aperte 4: Aplicar multa \n"+
+            "Aperte 5: Ver multas \n"+
+            "Aperte 6: Alterar status da multa\n"+
+            "Aperte 7: Alterar meus dados\n"+
+            "Aperte 0: Voltar a Pagina Inicial"
+            );
+    
+        switch(opcao){
+            case "1":
+                sistema.ver_dados_agente(agente);
+                break;
+            case "2":
+                sistema.ver_lista_veiculos();
+                break;
+            case "3":
+                sistema.ver_lista_condutores();
+                break;
+            case "4":
+                sistema.aplicar_multa();
+                break;
+            case "5":
+                sistema.ver_multas();
+                break;
+            case "6":
+                sistema.alterar_status_multa();
+                break;
+            case "7":
+                sistema.alterar_dados_agente(agente);
+                break;   
+            case "0":
+                console.log("\nSaindo da página do condutor...");
+                return PaginaInicial();
+        }
     }
 }
 
@@ -148,7 +163,7 @@ class Pessoa {
 }
 
 class Condutor extends Pessoa{
-    constructor(id_unico, nome, cpf, email, senha,data_de_nascimento){
+    constructor(id_unico, nome, cpf, email, senha, data_de_nascimento){
 
         super(id_unico, nome, cpf, email, senha);
         this.data_de_nascimento = data_de_nascimento;
@@ -239,9 +254,9 @@ class Sistema{
 
     login(){
 
-        let opcao = requisicao.question("Se voce for um condutor cadastrado, aperte 1. \nSe voce for um agente cadastrado, aperte 2? \n")
+        let opcao = requisicao.question("Aperte 1: Condutor cadastrado\nAperte 2: Agente cadastrado\n")
 
-        let email = requisicao.question("Insira seu email: ");
+        let email = requisicao.question("\nInsira seu email: ");
         let senha = requisicao.question("Insira sua senha: ");
 
 
@@ -252,11 +267,11 @@ class Sistema{
                 let condutor_encontrado = condutores.find(condutor => condutor.email === email && condutor.senha === senha);
 
                 if (!condutor_encontrado){
-                    console.log("Email ou senha incorreto");
+                    console.log("\nEmail ou senha incorreto");
                     this.login();
                 } else {
 
-                    console.log("Login realizado com sucesso!");
+                    console.log("\nLOGIN REALIZADO COM SUCESSO!!");
                     this.condutorlogado = condutor_encontrado;
                     PaginaCondutor(this.condutorlogado);// usado para "levar" a variável condutor_encontrado para página do condutorlogado
                 }
@@ -267,14 +282,14 @@ class Sistema{
                 let agente_encontrado = agentes.find(agente => agente.email === email && agente.senha === senha);
 
                 if (!agente_encontrado){
-                    console.log("Email ou senha incorreto");
+                    console.log("\nEmail ou senha incorreto\n");
                     this.login();
                 } else {
 
-                    console.log("Login realizado com sucesso!");
+                    console.log("\nLOGIN REALIZADO COM SUCESSO!!\n");
                     this.agentelogado = agente_encontrado;
                     PaginaAgente(this.agentelogado);// usado para "levar" a variável agente_encontrado para página do agentelogado
-                    //agente_logado();
+                
                 }
                 break;
         }
@@ -341,8 +356,61 @@ class Sistema{
         console.log(multa);
     }
 
+    alterar_dados_agente(agente){
+        let opcao = requisicao.question(
+            "\nQual dado gostaria de mudar?\n " +
+            "Aperte 1: nome"+
+            "Aperte 2: email"+
+            "Aperte 3: senha"+
+            "Aperte 4: cpf"  
+        );
+
+        let agentes = carregarAgentes();
+        let agente_encontrado = agentes.find( a => a.id_unico === agente.id_unico);
+
+        switch(opcao){
+
+            case "1":
+
+                let nome = requisicao.question("\nQual seu novo nome? ")
+                agente_encontrado.nome = nome;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
+                Object.assign(agente, agente_encontrado);
+                break;
+            
+            case "2":
+
+                let email = requisicao.question("\nQual seu novo email? ");
+                agente_encontrado.email = email;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
+                Object.assign(agente, agente_encontrado);
+                break;
+
+            case "3":
+
+                let senha = requisicao.question("\nQual sua nova senha? ")
+                agente_encontrado.senha = senha;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
+                Object.assign(agente, agente_encontrado);
+                break;
+            
+            case "4":
+
+                let cpf = requisicao.question("\nQual seu novo cpf? ")
+                agente_encontrado.cpf = cpf;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
+                Object.assign(agente, agente_encontrado);
+                break;
+        }
+
+        console.log("\nDADOS ALTERADOS COM SUCESSO!!\n");
+
+        return;
+    }
+    
+
     ver_dados_condutor(condutor) {
-        console.log("\n" + condutor + "\n");
+        console.log(condutor);
     }
 
     ver_multas(){
@@ -425,9 +493,57 @@ class Sistema{
             "Aperte 2: email"+
             "Aperte 3: senha"+
             "Aperte 4: cpf"+
-            "Aperte 5: data de nascimento"
+            "Aperte 5: data de nascimento\n"
         );
-        
+
+        let condutores = carregarCondutores();
+        let condutor_encontrado = condutores.find( c => c.id_unico === condutor.id_unico);
+
+        switch(opcao){
+
+            case "1":
+
+                let nome = requisicao.question("\nQual seu novo nome? ")
+                condutor_encontrado.nome = nome;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                Object.assign(condutor, condutor_encontrado);
+                break;
+            
+            case "2":
+
+                let email = requisicao.question("\nQual seu novo email? ");
+                condutor_encontrado.email = email;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                Object.assign(condutor, condutor_encontrado);
+                break;
+
+            case "3":
+
+                let senha = requisicao.question("\nQual sua nova senha? ")
+                condutor_encontrado.senha = senha;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                Object.assign(condutor, condutor_encontrado);
+                break;
+            
+            case "4":
+
+                let cpf = requisicao.question("\nQual seu novo cpf? ")
+                condutor_encontrado.cpf = cpf;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                Object.assign(condutor, condutor_encontrado);
+                break;
+            
+            case "5":
+
+                let data_de_nascimento = requisicao.question("\nQual sua nova data de nascimento? ")
+                condutor_encontrado.data_de_nascimento = data_de_nascimento;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                Object.assign(condutor, condutor_encontrado);
+                break;
+        }
+        console.log("\nDADOS ALTERADOS COM SUCESSO!!\n");
+
+        return;
     }
 
     salvar_condutor(condutor_add){
