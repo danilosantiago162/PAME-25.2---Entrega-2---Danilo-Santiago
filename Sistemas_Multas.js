@@ -35,7 +35,7 @@ function carregarAgentes() {
 }
 
 function PaginaInicial(){
-    var opcao = requisicao.question("Bem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
+    var opcao = requisicao.question("\nBem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
     "O que deseja fazer? \n \n" + " Cadastro: Aperte 1 \n login: Aperte 2 \n Sair do Sistema: Aperte 3 \n"
     );
 
@@ -125,6 +125,8 @@ class Sistema{
             console.log("Cadastro realizado com sucesso!!");
 
             console.log(condutor);
+
+            PaginaInicial();
         }
 
         if (opcao == "2"){
@@ -140,6 +142,8 @@ class Sistema{
             console.log("Cadastro realizado com sucesso!!");
 
             console.log(agente);
+
+            PaginaInicial();
         }
     }
 
@@ -159,6 +163,7 @@ class Sistema{
 
                 if (!condutor_encontrado){
                     console.log("Email ou senha incorreto");
+                    this.login();
                 } else {
 
                     console.log("Login realizado com sucesso!");
@@ -172,6 +177,7 @@ class Sistema{
 
                 if (!agente_encontrado){
                     console.log("Email ou senha incorreto");
+                    this.login();
                 } else {
 
                     console.log("Login realizado com sucesso!");
