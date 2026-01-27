@@ -9,5 +9,7 @@ function salvar_condutor(condutor) {
     lista.push(condutor);
     fs.writeFileSync("condutores.json", JSON.stringify(lista, null, 2));
 }
-
-module.exports = { listar_condutores, salvar_condutor};
+function buscarPorId(id) {
+    return listar().find(c => c.id_unico === id);
+}
+module.exports = { listar_condutores, salvar_condutor, buscarPorId};

@@ -9,5 +9,8 @@ function salvar_multa(multa) {
     lista.push(multa);
     fs.writeFileSync("multas.json", JSON.stringify(lista, null, 2));
 }
+function buscarPorId(id) {
+    return listar().find(m => m.id_unico === id);
+}
 
-module.exports = { listar_multas, salvar_multa};
+module.exports = { listar_multas, salvar_multa, buscarPorId};

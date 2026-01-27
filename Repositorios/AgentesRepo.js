@@ -9,5 +9,8 @@ function salvar_agente(agente) {
     lista.push(agente);
     fs.writeFileSync("agentes.json", JSON.stringify(lista, null, 2));
 }
+function buscarPorId(id) {
+    return listar().find(a => a.id_unico === id);
+}
 
-module.exports = { listar_agentes, salvar_agente};
+module.exports = { listar_agentes, salvar_agente, buscarPorId};
