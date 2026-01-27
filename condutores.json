@@ -16,5 +16,14 @@
     "senha": "999999",
     "data_de_nascimento": "01/09/2002",
     "tipo": "condutor"
+  },
+  {
+    "id_unico": "29953568NR",
+    "nome": "g",
+    "cpf": "1",
+    "email": "1",
+    "senha": "1",
+    "data_de_nascimento": "1",
+    "tipo": "condutor"
   }
 ]

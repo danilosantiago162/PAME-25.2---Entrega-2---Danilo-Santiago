@@ -4,12 +4,27 @@ const requisicao = require("readline-sync");
 const fs = require("fs");
 
 function gerarIdUnico() {
-    const numeros = Math.floor(10000000 + Math.random() * 90000000);
-    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const l1 = letras[Math.floor(Math.random() * letras.length)];
-    const l2 = letras[Math.floor(Math.random() * letras.length)];
 
-    return `${numeros}${l1}${l2}`;
+    let multas = carregarMultas();
+    let condutores = carregarCondutores();
+    let agentes = carregarAgentes();
+
+    while (true) { 
+        const numeros = Math.floor(10000000 + Math.random() * 90000000);
+        const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const l1 = letras[Math.floor(Math.random() * letras.length)];
+        const l2 = letras[Math.floor(Math.random() * letras.length)];
+
+        var id_unico = `${numeros}${l1}${l2}`;
+
+        let multa_existente = multas.find( m => m.id_unico === id_unico); 
+        let condutor_existente = condutores.find( c => c.id_unico === id_unico); 
+        let agente_existente = agentes.find( a => a.id_unico === id_unico); 
+
+        if (!multa_existente && !condutor_existente && !agente_existente){
+            return id_unico;
+        }
+    }
 }
 
 function gerarNumMatricula() {
