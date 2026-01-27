@@ -1,8 +1,8 @@
-console.log("Teste");
-
+//Ferramentas para input e arquivo .json
 const requisicao = require("readline-sync");
 const fs = require("fs");
 
+//função que gera id_unico, garantindo a não duplicidade
 function gerarIdUnico() {
 
     let multas = carregarMultas();
@@ -27,6 +27,8 @@ function gerarIdUnico() {
     }
 }
 
+//função que gera número de matrícula
+//implementar não duplicidade
 function gerarNumMatricula() {
 
     const numMatricula = Math.floor(10000000 + Math.random() * 90000000);
@@ -35,34 +37,36 @@ function gerarNumMatricula() {
 
 }
 
-function carregarCondutores() {
+
+function carregarCondutores() { //armazena o conteúdo do arquivo json para posterior alteração
 
     const condutores = fs.readFileSync("condutores.json", "utf-8");
     return JSON.parse(condutores);
 
 }
 
-function carregarAgentes() {
+function carregarAgentes() { //armazena o conteúdo do arquivo json para posterior alteração
 
     const agentes = fs.readFileSync("agentes.json", "utf-8");
     return JSON.parse(agentes);
 
 }
 
-function carregarMultas() {
+function carregarMultas() { //armazena o conteúdo do arquivo json para posterior alteração
 
     const multas = fs.readFileSync("multas.json", "utf-8");
     return JSON.parse(multas);
 
 }
 
-function carregarVeiculos() {
+function carregarVeiculos() { //armazena o conteúdo do arquivo json para posterior alteração
 
     const veiculos = fs.readFileSync("veiculos.json", "utf-8");
     return JSON.parse(veiculos);
 
 }
 
+//função que confere a duplicidade de cpfs, chamada no cadastro
 function conferir_cpf_duplo_condutor(cpf) {
     let condutores = carregarCondutores();
     
@@ -75,7 +79,7 @@ function conferir_cpf_duplo_condutor(cpf) {
         return false;
     }
 }
-
+//função que confere a duplicidade de cpfs, chamada no cadastro
 function conferir_cpf_duplo_agente(cpf) {
     let agentes = carregarAgentes();
 
@@ -88,6 +92,7 @@ function conferir_cpf_duplo_agente(cpf) {
         return false;
     }
 }
+//função que confere incoerência na data de nascimento
 function conferir_data_de_nascimento(data) {
     const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
     const match = data.match(regex);
@@ -107,10 +112,10 @@ function conferir_data_de_nascimento(data) {
     );
 }
 
-
+//PÁGINA INICIAL - Primeira a ser chamada, hub incial
 function PaginaInicial(){
-    var opcao = requisicao.question("\nBem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
-    "O que deseja fazer? \n \n" + "Aperte 1: Cadastre-se \nAperte 2: Login \nAperte 3: Sair do Sistema \n"
+    var opcao = requisicao.question(
+        "\nBem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + "O que deseja fazer? \n \n" + "Aperte 1: Cadastre-se \nAperte 2: Login \nAperte 3: Sair do Sistema \n"
     );
 
     if (opcao == "1"){
@@ -127,10 +132,10 @@ function PaginaInicial(){
     }
 
 }
-
+//Página do condutor logado
 function PaginaCondutor(condutor){
 
-    while (true) { 
+    while (true) { //garante que após cada execução de opção o usuário volte para página do condutor logado
         let opcao = requisicao.question(
             "\nBem vindo a pagina do condutor, selecione a opcao de interesse:\n" +
             "Aperte 1: Ver meus dados \n" +
@@ -167,10 +172,10 @@ function PaginaCondutor(condutor){
         }
     }
 }
-
+//Página do agente
 function PaginaAgente(agente){
 
-    while (true) { 
+    while (true) { //garante que após cada execução de opção o usuário volte para página do condutor logado
         let opcao = requisicao.question(
             "\nBem vindo a pagina do agente, selecione a opcao de interesse:\n" +
             "Aperte 1: Ver meus dados \n" +
@@ -211,7 +216,7 @@ function PaginaAgente(agente){
         }
     }
 }
-
+//Class Pessoa, classe pai de condutor e agente
 class Pessoa {
     constructor(id_unico, nome, cpf, email, senha){
         this.id_unico = id_unico;
@@ -221,26 +226,26 @@ class Pessoa {
         this.senha = senha;
     }
 }
-
+//Classe filha Condutor, herda os parâmtros do pai
 class Condutor extends Pessoa{
     constructor(id_unico, nome, cpf, email, senha, data_de_nascimento){
 
         super(id_unico, nome, cpf, email, senha);
         this.data_de_nascimento = data_de_nascimento;
-        this.tipo = "condutor";
+        this.tipo = "condutor"; //facilita na identificação do tipo de pessoa
     }
 }
-
+//Classe filha Agente, herda os parâmtros do pai
 class Agente extends Pessoa{
     constructor(id_unico, nome, cpf, email, senha, numero_matricula){
 
         super(id_unico, nome, cpf, email, senha);
         this.numero_matricula = numero_matricula;
-        this.tipo = "agente";
+        this.tipo = "agente"; //facilita na identificação do tipo de pessoa
 
     }
 }
-
+//Classe Veiculo
 class Veiculo{
     constructor(placa, modelo, marca, cor){
         this.placa = placa;
@@ -249,7 +254,7 @@ class Veiculo{
         this.cor = cor;
     }
 }
-
+//Classe Multa
 class Multa{
     constructor(id_unico, id_cliente, tipo_infracao, valor, data_aplicacao, status){
         this.id_unico = id_unico;
@@ -260,7 +265,7 @@ class Multa{
         this.status = status;
     }
 }
-
+//Classe Sistema, onde todas operações acontecem
 class Sistema{
 
     constructor() {
@@ -268,67 +273,68 @@ class Sistema{
         this.agentelogado = null;
     }
 
-    cadastro(){
+    cadastro(){ //cadastro tanto de condutor quanto agente
 
         let id_unico = gerarIdUnico();
         let nome = requisicao.question("Qual seu nome? ");
 
         let cpf = requisicao.question("Qual seu cpf? (APENAS NUMEROS) ");
 
-        if (cpf.length !== 11){
+        if (cpf.length !== 11){ // verificação de coerência no número cpf
             console.log("\nCPF INVÁLIDO!!");
             PaginaInicial();
         }
 
         let email = requisicao.question("Insira seu email: ");
 
-        if (!email.includes("@gmail.com")) {
+        if (!email.includes("@gmail.com")) { //verificação de coerência no email
         console.log("Email inválido. Use um email @gmail.com");
         return;
 }
-        let senha = requisicao.question("Insira sua senha: ", {hideEchoBack:true});
+        let senha = requisicao.question("Insira sua senha: ", {hideEchoBack:true}); //senha com proteção visual
 
         let opcao = requisicao.question("\nAperte 1: Novo condutor\nAperte 2: Novo agente \n");
 
         if (opcao == "1"){
 
-            if (!conferir_cpf_duplo_condutor(cpf)){ 
+            if (!conferir_cpf_duplo_condutor(cpf)){ //verificação de duplicidade de cpf em condutores
 
                 let data_de_nascimento = requisicao.question("Qual sua data de nascimento? (DD/MM/AAAA) ");
                     
-                if(!conferir_data_de_nascimento(data_de_nascimento)){
+                if(!conferir_data_de_nascimento(data_de_nascimento)){ //verificação de coerência na data de nascimento 
                     console.log("\nDATA INVALIDA!!\n");
                     PaginaInicial();
                 }
 
                 let condutor;
 
-                condutor = new Condutor(id_unico, nome, cpf, email, senha, data_de_nascimento);
+                condutor = new Condutor(id_unico, nome, cpf, email, senha, data_de_nascimento); //criação de objeto da classe Condutor
 
-                this.salvar_condutor(condutor);
-
+                //chamada de função que armazena o objeto em arquivo .json, vale ressaltar
+                //que o objeto não é guardado no arquivo como objeto
+                this.salvar_condutor(condutor); 
                 console.log("\nCadastro realizado com sucesso!!\n");
 
-                console.log(condutor);
+                console.log(condutor); //print do novo condutor
                 } 
             PaginaInicial();
         }
 
         if (opcao == "2"){
 
-            if (!conferir_cpf_duplo_agente(cpf)){ 
+            if (!conferir_cpf_duplo_agente(cpf)){ //verificação de duplicidade de cpf em agentes
 
-            let numero_matricula = gerarNumMatricula();
+            let numero_matricula = gerarNumMatricula(); //chamada da função geradora de matrículas
 
             let agente;
 
-            agente = new Agente(id_unico, nome, cpf, email, senha, numero_matricula);
+            agente = new Agente(id_unico, nome, cpf, email, senha, numero_matricula); //criação de objeto da classe Agente
 
-            this.salvar_agente(agente);
+            this.salvar_agente(agente); //chamada de função que armazena objeto em arquivo .json
 
             console.log("Cadastro realizado com sucesso!!");
 
-            console.log(agente);
+            console.log(agente); //print do novo agente
             }
             PaginaInicial();
         }
@@ -346,9 +352,11 @@ class Sistema{
             case "1":
 
                 let condutores = carregarCondutores();
+
+                //procura condutor no arquivo .json 
                 let condutor_encontrado = condutores.find(condutor => condutor.email === email && condutor.senha === senha);
 
-                if (!condutor_encontrado){
+                if (!condutor_encontrado){ 
                     console.log("\nEmail ou senha incorreto");
                     this.login();
                 } else {
@@ -361,6 +369,8 @@ class Sistema{
             case "2":
 
                 let agentes = carregarAgentes();
+
+                //procura agente no arquivo .json 
                 let agente_encontrado = agentes.find(agente => agente.email === email && agente.senha === senha);
 
                 if (!agente_encontrado){
@@ -376,69 +386,73 @@ class Sistema{
                 break;
         }
     }
-
+    //print dos dados do agente
     ver_dados_agente(agente){
         console.log(agente);
     }
-
+    //print da lista de veículos
     ver_lista_veiculos(){
 
-        let veiculos = carregarVeiculos();
+        let veiculos = carregarVeiculos(); //variável veiculos recebe conteúdo do arquivo veiculos.json
 
         console.log(veiculos);
     }
-
+    //print da lista de condutores
     ver_lista_condutores(){
 
-        let condutores = carregarCondutores();
+        let condutores = carregarCondutores(); //variável condures recebe conteúdo do arquivo condutores.json
 
         console.log(condutores);
     }
 
+    //método que altera status de multa
     alterar_status_multa(){
         let multas = carregarMultas();
 
         let id_unico = requisicao.question("\nInsira o id_unico da multa que deseja alterar o status: ");
 
-        let multa_escolhida = multas.find( multas => multas.id_unico === id_unico);
+        let multa_escolhida = multas.find( multas => multas.id_unico === id_unico); //verifica a existência de uma multa com o id_unico informado
 
         let status_novo = requisicao.question("\nInsira o novo status da multa " + multa_escolhida.id_unico +": ");
 
-        multa_escolhida.status = status_novo;
+        multa_escolhida.status = status_novo; //muda status anterior para o fornecido acima
 
+        //reescreve o arquivo multas.json
+        //Ao fazer a linha acima, o status da multa_escolhida já foi mudado na memória, porém não foi escrito no arquivo
+        //a linha abaixo atualiza o arquivo
         fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
 
         console.log("\nSTATUS MUDADO COM SUCESSO!!\n");
 
         return;
     }
-
+    //método para aplicação de multa
     aplicar_multa(){
 
         let id_unico = gerarIdUnico();
 
         let id_cliente = requisicao.question("\nInsira o id_unico do multado: ");
         let tipo_infracao = requisicao.question("Qual o tipo de infracao? ");
-        let valor = requisicao.question("Qual o valor da infracao? ");
+        let valor = requisicao.question("Qual o valor da infracao? "); 
 
-        const dia = new Date().getDate();
-        const mes = new Date().getMonth() + 1;
-        const ano = new Date().getFullYear();
+        const dia = new Date().getDate(); //pega dia de hoje
+        const mes = new Date().getMonth() + 1; //pega o mês atual
+        const ano = new Date().getFullYear(); //pega o ano atual
 
         let data_aplicacao = `${dia}/${mes}/${ano}`;
 
         let status = requisicao.question("Insira o status da multa: ");
 
-        let multa = new Multa(id_unico, id_cliente, tipo_infracao, valor, data_aplicacao, status);
+        let multa = new Multa(id_unico, id_cliente, tipo_infracao, valor, data_aplicacao, status); //criação de objeto da classe Multa
 
-        this.salvar_multa(multa);
+        this.salvar_multa(multa); //chamada de método que salva as informações do novo objeto no arquivo multas.json
 
         console.log("\nMULTA APLICADA COM SUCESSO!!\n");
 
-        console.log(multa);
+        console.log(multa); //print da nova multa
     }
 
-    alterar_dados_agente(agente){
+    alterar_dados_agente(agente){ //método que altera dados do agente
         let opcao = requisicao.question(
             "\nQual dado gostaria de mudar?\n " +
             "Aperte 1: nome"+
@@ -448,7 +462,7 @@ class Sistema{
         );
 
         let agentes = carregarAgentes();
-        let agente_encontrado = agentes.find( a => a.id_unico === agente.id_unico);
+        let agente_encontrado = agentes.find( a => a.id_unico === agente.id_unico); //verifica a existência de um agente "a" com id_unico igual ao id_unico do "agente"
 
         switch(opcao){
 
@@ -456,8 +470,8 @@ class Sistema{
 
                 let nome = requisicao.question("\nQual seu novo nome? ")
                 agente_encontrado.nome = nome;
-                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
-                Object.assign(agente, agente_encontrado);
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2)); //salva novo nome
+                Object.assign(agente, agente_encontrado); //altera os dados do agente para os dados do agente_encontrado
                 break;
             
             case "2":
@@ -490,11 +504,12 @@ class Sistema{
         return;
     }
     
-
+    //função que printa os dadosdo condutor
     ver_dados_condutor(condutor) {
         console.log(condutor);
     }
 
+    //função que printa lista de todas as multas
     ver_multas(){
 
         let multas = carregarMultas();
@@ -504,70 +519,74 @@ class Sistema{
         return
     }
 
+    //função que mostra multas do condutor logado
     ver_minhas_multas(id_cliente) {
 
         let multas = carregarMultas();
-        let multas_encontradas = multas.filter( multa => multa.id_cliente === id_cliente);
+        let multas_encontradas = multas.filter( multa => multa.id_cliente === id_cliente); //verifica a existência de uma multa com o id_cliente igual ao id_cliente fonecido como parâmetro
+        //vale ressaltar que esse id_cliente é o id_unico do cliente, são a mesma sequência alfanumérica
+        //utiliza-se o filter e não o find pois podem ser mais de uma multa, o find mostra apenas 1
 
-        if (multas_encontradas.length === 0){
+
+        if (multas_encontradas.length === 0){ //verifica a existência de multas
             console.log("\nNenhuma multa encontrada!\n")
             return;
         }
 
-        console.log(multas_encontradas);
+        console.log(multas_encontradas); //print das multas do condutor logado
 
     }
 
-    pagar_multa(id_cliente) {
+    pagar_multa(id_cliente) { //método que altera status de multa para "paga" 
 
-        this.ver_minhas_multas(id_cliente);
+        this.ver_minhas_multas(id_cliente);//chamada de método 
 
         let opcao = requisicao.question("\nInsira o id_unico da multa que quer pagar: ");
 
         let multas = carregarMultas();
-        let multa_encontrada = multas.find( multa => multa.id_unico === opcao);
+        let multa_encontrada = multas.find( multa => multa.id_unico === opcao);//verifica a existência de uma multa com o id_unico igual ao id_unico informado como parâmetro
 
-        multa_encontrada.status = "paga";
+        multa_encontrada.status = "paga"; //mudança de status 
 
-        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2)); //salvamento de mudança
 
         console.log("\nMULTA PAGA!!\n");
 
     }
 
-    recorrer_multa(id_cliente) {
+    recorrer_multa(id_cliente) { //método que altera status de multa para "recorrida" 
 
-        this.ver_minhas_multas(id_cliente);
+        this.ver_minhas_multas(id_cliente); //chamada de método 
 
-        let opcao = requisicao.question("\nInsira o id_unico da multa que quer recorrer: ");
+        let opcao = requisicao.question("\nInsira o id_unico da multa que quer recorrer: "); 
 
         let multas = carregarMultas();
-        let multa_encontrada = multas.find( multa => multa.id_unico === opcao);
+        let multa_encontrada = multas.find( multa => multa.id_unico === opcao); //verifica a existência de uma multa com o id_unico igual ao id_unico informado como parâmetro
 
-        multa_encontrada.status = "recorrida";
+        multa_encontrada.status = "recorrida"; //mudança de status
 
-        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2)); //salvamento de mudança
 
         console.log("\nMULTA RECORRIDA!!\n");
 
     }
 
-    cadastrar_veiculo(){
+    cadastrar_veiculo(){ //cadastro de veículo
         let placa = requisicao.question("\nQual a placa do veiculo? ");
         let modelo = requisicao.question("Qual o modelo do veiculo? ");
         let marca = requisicao.question("Qual a marca do veiculo? ");
         let cor = requisicao.question("Qual a cor do veiculo? ");
 
-        let veiculo = new Veiculo(placa, modelo, marca, cor);
+        let veiculo = new Veiculo(placa, modelo, marca, cor); //criação de objeto da classe Veiculo
 
-        this.salvar_veiculo(veiculo);
+        this.salvar_veiculo(veiculo); //chamada de função que salva informações do novo objeto em arquivo .json
 
         console.log("\nCADASTRO REALIZADO COM SUCESSO!!\n");
 
-        console.log(veiculo);
+        console.log(veiculo); //print com informações do novo veículo
     }
 
-    alterar_dados_condutor(condutor){
+    alterar_dados_condutor(condutor){ //método que altera dados do condutor
 
         let opcao = requisicao.question(
             "\nQual dado gostaria de mudar?\n " +
@@ -579,23 +598,23 @@ class Sistema{
         );
 
         let condutores = carregarCondutores();
-        let condutor_encontrado = condutores.find( c => c.id_unico === condutor.id_unico);
+        let condutor_encontrado = condutores.find( c => c.id_unico === condutor.id_unico); //verifica a existência de condutor "c" com id_unico identico ao id_unico do "condutor" 
 
         switch(opcao){
 
             case "1":
 
                 let nome = requisicao.question("\nQual seu novo nome? ")
-                condutor_encontrado.nome = nome;
-                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
-                Object.assign(condutor, condutor_encontrado);
+                condutor_encontrado.nome = nome; //mudança de nome
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2)); //salvamento da mudança
+                Object.assign(condutor, condutor_encontrado); //altera dados do condutor para os dados de condutor_encontrado
                 break;
             
             case "2":
 
                 let email = requisicao.question("\nQual seu novo email? ");
                 condutor_encontrado.email = email;
-                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
                 Object.assign(condutor, condutor_encontrado);
                 break;
 
@@ -603,7 +622,7 @@ class Sistema{
 
                 let senha = requisicao.question("\nQual sua nova senha? ", {hideEchoBack:true});
                 condutor_encontrado.senha = senha;
-                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
                 Object.assign(condutor, condutor_encontrado);
                 break;
             
@@ -611,7 +630,7 @@ class Sistema{
 
                 let cpf = requisicao.question("\nQual seu novo cpf? ")
                 condutor_encontrado.cpf = cpf;
-                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
                 Object.assign(condutor, condutor_encontrado);
                 break;
             
@@ -619,7 +638,7 @@ class Sistema{
 
                 let data_de_nascimento = requisicao.question("\nQual sua nova data de nascimento? ")
                 condutor_encontrado.data_de_nascimento = data_de_nascimento;
-                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
                 Object.assign(condutor, condutor_encontrado);
                 break;
         }
@@ -628,58 +647,58 @@ class Sistema{
         return;
     }
 
-    salvar_condutor(condutor_add){
+    salvar_condutor(condutor_add){ //salva novo condutor
         let condutores_lista = [];
 
         if (fs.existsSync("condutores.json")){
-            condutores_lista = JSON.parse(fs.readFileSync("condutores.json", "utf-8"));
+            condutores_lista = JSON.parse(fs.readFileSync("condutores.json", "utf-8")); //variável recebe valores do arquivo .json
         }
 
-        condutores_lista.push(condutor_add);
+        condutores_lista.push(condutor_add); //adiciona novo condutor à lista
 
-        fs.writeFileSync("condutores.json", JSON.stringify(condutores_lista, null, 2));
+        fs.writeFileSync("condutores.json", JSON.stringify(condutores_lista, null, 2)); //salva mudanças
     }
 
-    salvar_agente(agente_add){
+    salvar_agente(agente_add){ //salva novo agente
         let agentes_lista = [];
 
         if (fs.existsSync("agentes.json")){
-            agentes_lista = JSON.parse(fs.readFileSync("agentes.json", "utf-8"));
+            agentes_lista = JSON.parse(fs.readFileSync("agentes.json", "utf-8")); //variável recebe valores do arquivo .json
         }
 
-        agentes_lista.push(agente_add);
+        agentes_lista.push(agente_add); //adiciona novo agente à lista
 
-        fs.writeFileSync("agentes.json", JSON.stringify(agentes_lista, null, 2));
+        fs.writeFileSync("agentes.json", JSON.stringify(agentes_lista, null, 2)); //salva mudanças
     }
 
-    salvar_multa(multa_add){
+    salvar_multa(multa_add){ //salva nova multa
         let multas_lista = [];
 
         if (fs.existsSync("multas.json")){
-            multas_lista = JSON.parse(fs.readFileSync("multas.json", "utf-8"));
+            multas_lista = JSON.parse(fs.readFileSync("multas.json", "utf-8")); //variável recebe valores do arquivo .json
         }
 
-        multas_lista.push(multa_add);
+        multas_lista.push(multa_add); //adiciona nova multa à lista
 
-        fs.writeFileSync("multas.json", JSON.stringify(multas_lista, null, 2));
+        fs.writeFileSync("multas.json", JSON.stringify(multas_lista, null, 2)); //salva mudanças
     }
 
-    salvar_veiculo(veiculo_add){
+    salvar_veiculo(veiculo_add){ //salva novo veiculo
         let veiculos_lista = [];
 
         if (fs.existsSync("veiculos.json")){
-            veiculos_lista = JSON.parse(fs.readFileSync("veiculos.json", "utf-8"));
+            veiculos_lista = JSON.parse(fs.readFileSync("veiculos.json", "utf-8")); //variável recebe valores do arquivo .json
         }
 
-        veiculos_lista.push(veiculo_add);
+        veiculos_lista.push(veiculo_add); //adiciona novo veiculo à lista
 
-        fs.writeFileSync("veiculos.json", JSON.stringify(veiculos_lista, null, 2));
+        fs.writeFileSync("veiculos.json", JSON.stringify(veiculos_lista, null, 2)); //salva mudanças
     }
 
 
 }
 
-var sistema = new Sistema();
+var sistema = new Sistema(); //criação de objeto da classe sistema
 
-PaginaInicial();
+PaginaInicial(); //chamada da página inicial
 

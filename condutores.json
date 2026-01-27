@@ -7,5 +7,14 @@
     "senha": "123",
     "data_de_nascimento": "01/02/1990",
     "tipo": "condutor"
+  },
+  {
+    "id_unico": "85503412XD",
+    "nome": "Julia",
+    "cpf": "23647895100",
+    "email": "j@gmail.com",
+    "senha": "123456789",
+    "data_de_nascimento": "01/11/2002",
+    "tipo": "condutor"
   }
 ]
