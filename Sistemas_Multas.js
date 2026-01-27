@@ -477,6 +477,10 @@ class Sistema{
             case "2":
 
                 let email = requisicao.question("\nQual seu novo email? ");
+                if (!email.includes("@gmail.com")) { //verificação de coerência no email
+                    console.log("Email inválido. Use um email @gmail.com");
+                    return;
+                }
                 agente_encontrado.email = email;
                 fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
                 Object.assign(agente, agente_encontrado);
@@ -614,6 +618,10 @@ class Sistema{
 
                 let email = requisicao.question("\nQual seu novo email? ");
                 condutor_encontrado.email = email;
+                if (!email.includes("@gmail.com")) { //verificação de coerência no email
+                    console.log("Email inválido. Use um email @gmail.com");
+                    return;
+                }
                 fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
                 Object.assign(condutor, condutor_encontrado);
                 break;
