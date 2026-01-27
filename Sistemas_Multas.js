@@ -88,6 +88,25 @@ function conferir_cpf_duplo_agente(cpf) {
         return false;
     }
 }
+function conferir_data_de_nascimento(data) {
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const match = data.match(regex);
+
+    if (!match) return false;
+
+    const dia = Number(match[1]);
+    const mes = Number(match[2]);
+    const ano = Number(match[3]);
+
+    const dataObj = new Date(ano, mes - 1, dia);
+
+    return (
+        dataObj.getFullYear() === ano &&
+        dataObj.getMonth() === mes - 1 &&
+        dataObj.getDate() === dia
+    );
+}
+
 
 function PaginaInicial(){
     var opcao = requisicao.question("\nBem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
@@ -254,7 +273,7 @@ class Sistema{
         let id_unico = gerarIdUnico();
         let nome = requisicao.question("Qual seu nome? ");
 
-        let cpf = requisicao.question("Qual seu cpf? ");
+        let cpf = requisicao.question("Qual seu cpf? (APENAS NUMEROS) ");
 
         if (cpf.length !== 11){
             console.log("\nCPF INVÁLIDO!!");
@@ -269,24 +288,29 @@ class Sistema{
 }
         let senha = requisicao.question("Insira sua senha: ", {hideEchoBack:true});
 
-        let opcao = requisicao.question("Aperte 1: Novo condutor\nAperte 2: Novo agente \n");
+        let opcao = requisicao.question("\nAperte 1: Novo condutor\nAperte 2: Novo agente \n");
 
         if (opcao == "1"){
 
             if (!conferir_cpf_duplo_condutor(cpf)){ 
 
-            let data_de_nascimento = requisicao.question("Qual sua data de nascimento? ");
+                let data_de_nascimento = requisicao.question("Qual sua data de nascimento? (DD/MM/AAAA) ");
+                    
+                if(!conferir_data_de_nascimento(data_de_nascimento)){
+                    console.log("\nDATA INVALIDA!!\n");
+                    PaginaInicial();
+                }
 
-            let condutor;
+                let condutor;
 
-            condutor = new Condutor(id_unico, nome, cpf, email, senha, data_de_nascimento);
+                condutor = new Condutor(id_unico, nome, cpf, email, senha, data_de_nascimento);
 
-            this.salvar_condutor(condutor);
+                this.salvar_condutor(condutor);
 
-            console.log("\nCadastro realizado com sucesso!!");
+                console.log("\nCadastro realizado com sucesso!!\n");
 
-            console.log(condutor);
-            } 
+                console.log(condutor);
+                } 
             PaginaInicial();
         }
 

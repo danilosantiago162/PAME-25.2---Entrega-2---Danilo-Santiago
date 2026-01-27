@@ -1,29 +1,11 @@
 [
   {
-    "id_unico": "50202868SD",
-    "nome": "kaio",
-    "cpf": "456",
-    "email": "456",
-    "senha": "456",
-    "data_de_nascimento": "07/07/07",
-    "tipo": "condutor"
-  },
-  {
-    "id_unico": "20027438KV",
+    "id_unico": "27395353LT",
     "nome": "Danilo",
-    "cpf": "12345678900",
+    "cpf": "12345678987",
     "email": "d@gmail.com",
-    "senha": "999999",
-    "data_de_nascimento": "01/09/2002",
-    "tipo": "condutor"
-  },
-  {
-    "id_unico": "29953568NR",
-    "nome": "g",
-    "cpf": "1",
-    "email": "1",
-    "senha": "1",
-    "data_de_nascimento": "1",
+    "senha": "123",
+    "data_de_nascimento": "01/02/1990",
     "tipo": "condutor"
   }
 ]
