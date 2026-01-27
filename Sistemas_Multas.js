@@ -253,11 +253,23 @@ class Sistema{
 
         let id_unico = gerarIdUnico();
         let nome = requisicao.question("Qual seu nome? ");
+
         let cpf = requisicao.question("Qual seu cpf? ");
+
+        if (cpf.length !== 11){
+            console.log("\nCPF INVÁLIDO!!");
+            PaginaInicial();
+        }
+
         let email = requisicao.question("Insira seu email: ");
+
+        if (!email.includes("@gmail.com")) {
+        console.log("Email inválido. Use um email @gmail.com");
+        return;
+}
         let senha = requisicao.question("Insira sua senha: ", {hideEchoBack:true});
 
-        let opcao = requisicao.question("Caso queira se cadastrar como um novo condutor aperte 1, caso queira se cadastrar como um novo agente aperte 2 \n");
+        let opcao = requisicao.question("Aperte 1: Novo condutor\nAperte 2: Novo agente \n");
 
         if (opcao == "1"){
 
