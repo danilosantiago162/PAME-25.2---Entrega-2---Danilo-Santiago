@@ -7,5 +7,14 @@
     "senha": "123",
     "numero_matricula": "83430697",
     "tipo": "agente"
+  },
+  {
+    "id_unico": "57372641ET",
+    "nome": "Ricardo",
+    "cpf": "98765432100",
+    "email": "r@gmail.com",
+    "senha": "888888",
+    "numero_matricula": "94190143",
+    "tipo": "agente"
   }
 ]

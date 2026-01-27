@@ -48,6 +48,32 @@ function carregarVeiculos() {
 
 }
 
+function conferir_cpf_duplo_condutor(cpf) {
+    let condutores = carregarCondutores();
+    
+    let condutor_encontrado = condutores.find(c => c.cpf === cpf);
+
+    if (condutor_encontrado){
+        console.log("\nCPF já cadastrado!");
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function conferir_cpf_duplo_agente(cpf) {
+    let agentes = carregarAgentes();
+
+    let agente_encontrado = agentes.find( a => a.cpf === cpf);
+
+    if (agente_encontrado){
+        console.log("\nCPF já cadastrado!");
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function PaginaInicial(){
     var opcao = requisicao.question("\nBem vindo ao sistema de controle da Segue o Fluxo: " + "\n \n" + 
     "O que deseja fazer? \n \n" + "Aperte 1: Cadastre-se \nAperte 2: Login \nAperte 3: Sair do Sistema \n"
@@ -214,11 +240,14 @@ class Sistema{
         let nome = requisicao.question("Qual seu nome? ");
         let cpf = requisicao.question("Qual seu cpf? ");
         let email = requisicao.question("Insira seu email: ");
-        let senha = requisicao.question("Insira sua senha: ");
+        let senha = requisicao.question("Insira sua senha: ", {hideEchoBack:true});
 
         let opcao = requisicao.question("Caso queira se cadastrar como um novo condutor aperte 1, caso queira se cadastrar como um novo agente aperte 2 \n");
 
         if (opcao == "1"){
+
+            if (!conferir_cpf_duplo_condutor(cpf)){ 
+
             let data_de_nascimento = requisicao.question("Qual sua data de nascimento? ");
 
             let condutor;
@@ -227,14 +256,16 @@ class Sistema{
 
             this.salvar_condutor(condutor);
 
-            console.log("Cadastro realizado com sucesso!!");
+            console.log("\nCadastro realizado com sucesso!!");
 
             console.log(condutor);
-
+            } 
             PaginaInicial();
         }
 
         if (opcao == "2"){
+
+            if (!conferir_cpf_duplo_agente(cpf)){ 
 
             let numero_matricula = gerarNumMatricula();
 
@@ -247,7 +278,7 @@ class Sistema{
             console.log("Cadastro realizado com sucesso!!");
 
             console.log(agente);
-
+            }
             PaginaInicial();
         }
     }
@@ -257,7 +288,7 @@ class Sistema{
         let opcao = requisicao.question("Aperte 1: Condutor cadastrado\nAperte 2: Agente cadastrado\n")
 
         let email = requisicao.question("\nInsira seu email: ");
-        let senha = requisicao.question("Insira sua senha: ");
+        let senha = requisicao.question("Insira sua senha: ", {hideEchoBack:true});
 
 
         switch(opcao){
@@ -388,7 +419,7 @@ class Sistema{
 
             case "3":
 
-                let senha = requisicao.question("\nQual sua nova senha? ")
+                let senha = requisicao.question("\nQual sua nova senha?" , {hideEchoBack:true});
                 agente_encontrado.senha = senha;
                 fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
                 Object.assign(agente, agente_encontrado);
@@ -519,7 +550,7 @@ class Sistema{
 
             case "3":
 
-                let senha = requisicao.question("\nQual sua nova senha? ")
+                let senha = requisicao.question("\nQual sua nova senha? ", {hideEchoBack:true});
                 condutor_encontrado.senha = senha;
                 fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));
                 Object.assign(condutor, condutor_encontrado);

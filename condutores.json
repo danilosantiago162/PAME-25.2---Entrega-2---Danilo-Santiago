@@ -7,5 +7,14 @@
     "senha": "456",
     "data_de_nascimento": "07/07/07",
     "tipo": "condutor"
+  },
+  {
+    "id_unico": "20027438KV",
+    "nome": "Danilo",
+    "cpf": "12345678900",
+    "email": "d@gmail.com",
+    "senha": "999999",
+    "data_de_nascimento": "01/09/2002",
+    "tipo": "condutor"
   }
 ]
