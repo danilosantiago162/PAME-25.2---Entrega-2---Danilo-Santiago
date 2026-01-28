@@ -56,7 +56,7 @@ class Sistema {
 
                 console.log(condutor); //print do novo condutor
                 } 
-            PaginaInicial();
+            return true;
         }
 
         if (opcao == "2"){
@@ -75,12 +75,53 @@ class Sistema {
 
             console.log(agente); //print do novo agente
             }
-            PaginaInicial();
+            return true;
         }
     }
     
     login(){
+    
+        let opcao = requisicao.question("Aperte 1: Condutor cadastrado\nAperte 2: Agente cadastrado\n")
 
+        let email = requisicao.question("\nInsira seu email: ");
+        let senha = requisicao.question("Insira sua senha: ", {hideEchoBack:true});
+
+
+        switch(opcao){
+            case "1":
+
+                let condutores = condutoresRepo.listar_condutores();
+
+                //procura condutor no arquivo .json 
+                let condutor_encontrado = condutores.find(condutor => condutor.email === email && condutor.senha === senha);
+
+                if (!condutor_encontrado){ 
+                    console.log("\nEmail ou senha incorreto");
+                } else {
+
+                    console.log("\nLOGIN REALIZADO COM SUCESSO!!");
+                    
+                    return condutor_encontrado;
+                }
+                break;
+            case "2":
+
+                let agentes = agentesRepo.listar_agentes();
+
+                //procura agente no arquivo .json 
+                let agente_encontrado = agentes.find(agente => agente.email === email && agente.senha === senha);
+
+                if (!agente_encontrado){
+                    console.log("\nEmail ou senha incorreto\n");
+                    
+                } else {
+
+                    console.log("\nLOGIN REALIZADO COM SUCESSO!!\n");
+                    
+                    return agente_encontrado;                
+                }
+                break;
+        }
     }
     ver_dados_agente(){
 
