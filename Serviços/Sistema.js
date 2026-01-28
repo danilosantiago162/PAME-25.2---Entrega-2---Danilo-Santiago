@@ -264,14 +264,100 @@ class Sistema {
 
         console.log(veiculo); //print com informações do novo veículo
     }
-    pagar_multa(){
+    pagar_multa(id_cliente) { //método que altera status de multa para "paga" 
+    
+        ver_minhas_multas(id_cliente);//lista as multas do condutor
+
+        let opcao = requisicao.question("\nInsira o id_unico da multa que quer pagar: ");
+
+        let multas = multasRepo.listar_multas();
+        let multa_encontrada = multas.find( multa => multa.id_unico === opcao);//verifica a existência de uma multa com o id_unico igual ao id_unico informado como parâmetro
+
+        multa_encontrada.status = "paga"; //mudança de status 
+
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2)); //salvamento de mudança
+
+        console.log("\nMULTA PAGA!!\n");
 
     }
-    recorrer_multa(){
+    recorrer_multa(id_cliente) { //método que altera status de multa para "recorrida" 
+    
+        //ver_minhas_multas(id_cliente); //chamada de método 
+
+        let opcao = requisicao.question("\nInsira o id_unico da multa que quer recorrer: "); 
+
+        let multas = multasRepo.listar_multas();
+        let multa_encontrada = multas.find( multa => multa.id_unico === opcao); //verifica a existência de uma multa com o id_unico igual ao id_unico informado como parâmetro
+
+        multa_encontrada.status = "recorrida"; //mudança de status
+
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2)); //salvamento de mudança
+
+        console.log("\nMULTA RECORRIDA!!\n");
 
     }
-    alterar_dados_condutor(){
+    alterar_dados_condutor(condutor){ //método que altera dados do condutor
+    
+        let opcao = requisicao.question(
+            "\nQual dado gostaria de mudar?\n " +
+            "Aperte 1: nome\n"+
+            "Aperte 2: email\n"+
+            "Aperte 3: senha\n"+
+            "Aperte 4: cpf\n"+
+            "Aperte 5: data de nascimento\n"
+        );
 
+        let condutores = condutoresRepo.listar_condutores();
+        let condutor_encontrado = condutores.find( c => c.id_unico === condutor.id_unico); //verifica a existência de condutor "c" com id_unico identico ao id_unico do "condutor" 
+
+        switch(opcao){
+
+            case "1":
+
+                let nome = requisicao.question("\nQual seu novo nome? ")
+                condutor_encontrado.nome = nome; //mudança de nome
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2)); //salvamento da mudança
+                Object.assign(condutor, condutor_encontrado); //altera dados do condutor para os dados de condutor_encontrado
+                break;
+            
+            case "2":
+
+                let email = requisicao.question("\nQual seu novo email? ");
+                validarEMAIL();
+                condutor_encontrado.email = email;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
+                Object.assign(condutor, condutor_encontrado);
+                break;
+
+            case "3":
+
+                let senha = requisicao.question("\nQual sua nova senha? ", {hideEchoBack:true});
+                condutor_encontrado.senha = senha;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
+                Object.assign(condutor, condutor_encontrado);
+                break;
+            
+            case "4":
+
+                let cpf = requisicao.question("\nQual seu novo cpf? ");
+                validarCPF();
+                condutor_encontrado.cpf = cpf;
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
+                Object.assign(condutor, condutor_encontrado);
+                break;
+            
+            case "5":
+
+                let data_de_nascimento = requisicao.question("\nQual sua nova data de nascimento? ")
+                condutor_encontrado.data_de_nascimento = data_de_nascimento;
+                validarDATAcadastro();
+                fs.writeFileSync("condutores.json", JSON.stringify(condutores, null, 2));//salvamento da mudança
+                Object.assign(condutor, condutor_encontrado);
+                break;
+        }
+        console.log("\nDADOS ALTERADOS COM SUCESSO!!\n");
+
+        return;
     }
 
 

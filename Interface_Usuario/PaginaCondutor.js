@@ -27,17 +27,17 @@ function PaginaCondutor(sistema, condutor){
                 sistema.cadastrar_veiculo();
                 break;
             case "4":
-                sistema.pagar_multa();
+                sistema.pagar_multa(Condutor.getID());
                 break;
             case "5":
-                sistema.recorrer_multa();
+                sistema.recorrer_multa(Condutor.getID());
                 break;
             case "6":
                 sistema.alterar_dados_condutor();
                 break; 
             case "0":
                 console.log("\nSaindo da página do condutor...");
-                PaginaInicial();
+                return;
             default:
                 console.log("opcao invalida");
         }

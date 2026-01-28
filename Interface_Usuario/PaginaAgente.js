@@ -41,7 +41,7 @@ function PaginaAgente(sistema, agente){
                 break;   
             case "0":
                 console.log("\nSaindo da página do condutor...");
-                return PaginaInicial(sistema);
+                return;
         }
     }
 }
