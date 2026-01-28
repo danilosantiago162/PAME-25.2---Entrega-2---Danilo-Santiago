@@ -1,3 +1,4 @@
+const Pessoa = require("./Pessoa");
 //Classe filha Condutor, herda os parâmtros do pai
 class Condutor extends Pessoa{
     constructor(id_unico, nome, cpf, email, senha, data_de_nascimento){
@@ -13,3 +14,4 @@ class Condutor extends Pessoa{
         this.data_de_nascimento = data;
     }
 }
+module.exports = Condutor;

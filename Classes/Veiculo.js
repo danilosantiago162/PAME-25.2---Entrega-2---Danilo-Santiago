@@ -31,3 +31,4 @@ class Veiculo{
         this.cor = cor;
     }
 }
+module.exports = Veiculo;

@@ -1,7 +1,9 @@
-const condutor = require("../Classes/Condutor");
-const agente = require("../Classes/Agente");
-const multa = require("../Classes/Multa");
-const veiculo = require("../Classes/Veiculo");
+const requisicao = require("readline-sync");
+
+const Condutor = require("../Classes/Condutor");
+const Agente = require("../Classes/Agente");
+const Multa = require("../Classes/Multa");
+const Veiculo = require("../Classes/Veiculo");
 
 const condutoresRepo = require("../Repositorios/CondutoresRepo");
 const agentesRepo = require("../Repositorios/AgentesRepo");
@@ -15,13 +17,13 @@ const {
     validarCPF, validarEMAIL, validarDATAcadastro, conferir_cpf_duplo_condutor, conferir_cpf_duplo_agente
 } = require("./Validacao");
 
-const {PaginaInicial} = require("../Interface_Usuario/PaginaInicial");
-
 
 
 class Sistema {
 
     cadastro(){ //cadastro tanto de condutor quanto agente
+
+        console.log("\nCaso deseje sair insira um cpf inválido!\n")
     
         let id_unico = gerarIdUnico();
         let nome = requisicao.question("Qual seu nome? ");
@@ -42,7 +44,9 @@ class Sistema {
 
                 let data_de_nascimento = requisicao.question("Qual sua data de nascimento? (DD/MM/AAAA) ");
                     
-                validarDATAcadastro();
+                //if (!validarDATAcadastro(data_de_nascimento)){
+                //    return;
+                //};
 
                 let condutor;
 
@@ -166,3 +170,5 @@ class Sistema {
 
 
 }
+
+module.exports = Sistema;

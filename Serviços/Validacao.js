@@ -22,11 +22,31 @@ function validarEMAIL(email){
         return;
     }
 }
+//função que confere incoerência na data de nascimento
+function conferir_data_de_nascimento(data) {
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const match = data.match(regex);
+
+    if (!match) return false;
+
+    const dia = Number(match[1]);
+    const mes = Number(match[2]);
+    const ano = Number(match[3]);
+
+    const dataObj = new Date(ano, mes - 1, dia);
+
+    return (
+        dataObj.getFullYear() === ano &&
+        dataObj.getMonth() === mes - 1 &&
+        dataObj.getDate() === dia
+    );
+}
 function validarDATAcadastro(data){
-    if(!conferir_data_de_nascimento(data_de_nascimento)){ //verificação de coerência na data de nascimento 
+    if(!conferir_data_de_nascimento(data)){ //verificação de coerência na data de nascimento 
         console.log("\nDATA INVALIDA!!\n");
-        PaginaInicial();
+        return false;
     }
+    return true
 }
 //função que confere a duplicidade de cpfs, chamada no cadastro
 function conferir_cpf_duplo_condutor(cpf) {
@@ -54,5 +74,6 @@ function conferir_cpf_duplo_agente(cpf) {
         return false;
     }
 }
+
 
 module.exports = {validarCPF, validarEMAIL, validarDATAcadastro, conferir_cpf_duplo_condutor, conferir_cpf_duplo_agente};

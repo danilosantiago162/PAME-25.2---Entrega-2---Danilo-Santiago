@@ -34,3 +34,5 @@ class Pessoa {
         this.senha = senha;
     }
 }
+
+module.exports = Pessoa;

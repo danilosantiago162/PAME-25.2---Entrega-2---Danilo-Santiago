@@ -39,3 +39,4 @@ class Multa{
         this.status = status;
     }
 }
+module.exports = Multa;

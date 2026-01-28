@@ -1,3 +1,5 @@
+const requisicao = require("readline-sync");
+
 let {PaginaCondutor} = require("./PaginaCondutor"); 
 let {PaginaAgente} = require("./PaginaAgente"); 
 
