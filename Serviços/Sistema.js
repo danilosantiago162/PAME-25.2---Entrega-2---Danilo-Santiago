@@ -1,3 +1,4 @@
+const fs = require("fs");
 const requisicao = require("readline-sync");
 
 const Condutor = require("../Classes/Condutor");
@@ -157,11 +158,29 @@ class Sistema {
         console.log(multa); //print da nova multa
     }
     ver_multas(){
-
+        console.log("\n" + JSON.stringify(multasRepo.listar_multas(), null, 2)); //concatenação de string com array
     }
-    alterar_status_multa(){
-
-    }
+    //método que altera status de multa
+        alterar_status_multa(){
+            let multas = multasRepo.listar_multas();
+    
+            let id_unico = requisicao.question("\nInsira o id_unico da multa que deseja alterar o status: ");
+    
+            let multa_escolhida = multas.find( multas => multas.id_unico === id_unico); //verifica a existência de uma multa com o id_unico informado
+    
+            let status_novo = requisicao.question("\nInsira o novo status da multa " + multa_escolhida.id_unico + ": ");
+    
+            multa_escolhida.status = status_novo; //muda status anterior para o fornecido acima
+    
+            //reescreve o arquivo multas.json
+            //Ao fazer a linha acima, o status da multa_escolhida já foi mudado na memória, porém não foi escrito no arquivo
+            //a linha abaixo atualiza o arquivo
+            fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
+    
+            console.log("\nSTATUS MUDADO COM SUCESSO!!\n");
+    
+            return;
+        }
     alterar_dados_agente(agente){
 
     }

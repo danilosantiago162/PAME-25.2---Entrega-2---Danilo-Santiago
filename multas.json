@@ -5,22 +5,6 @@
     "tipo_infracao": "Alta velocidade",
     "valor": "400,00",
     "data_aplicacao": "28/1/2026",
-    "status": "pendente"
-  },
-  {
-    "id_unico": "94851905XM",
-    "id_cliente": "47656999WA",
-    "tipo_infracao": "Alta velocidade",
-    "valor": "400,00",
-    "data_aplicacao": "28/1/2026",
-    "status": "pendente"
-  },
-  {
-    "id_unico": "50920278BW",
-    "id_cliente": "47656999WA",
-    "tipo_infracao": "Alta velocidade",
-    "valor": "400,00",
-    "data_aplicacao": "28/1/2026",
-    "status": "pendente"
+    "status": "paga"
   }
 ]
