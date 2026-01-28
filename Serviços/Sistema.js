@@ -451,6 +451,7 @@ class Sistema {
                 return;
             default:
                 console.log("\nOPCAO INVALIDA\n");
+                return;
         }
         console.log("\nDADOS ALTERADOS COM SUCESSO!!\n");
 
