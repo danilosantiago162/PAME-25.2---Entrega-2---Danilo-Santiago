@@ -6,19 +6,19 @@ class Pessoa {
         this.email = email;
         this.senha = senha;
     }
-    getNome(){ 
+    static getNome(){ 
         return this.nome;
     }
-    getCPF(){ 
+    static getCPF(){ 
         return this.cpf;
     }
-    getEmail(){ 
+    static getEmail(){ 
         return this.email;
     }
-    getSenha(){ 
+    static getSenha(){ 
         return this.senha;
     }
-    getID(){
+    static getID(){
         return this.id_unico;
     }
     setNome(nome){

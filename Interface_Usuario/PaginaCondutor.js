@@ -21,7 +21,7 @@ function PaginaCondutor(sistema, condutor){
                 Condutor.ver_dados_condutor(condutor);
                 break;
             case "2":
-                sistema.ver_minhas_multas();
+                sistema.ver_minhas_multas(Condutor.getID());
                 break;
             case "3":
                 sistema.cadastrar_veiculo();

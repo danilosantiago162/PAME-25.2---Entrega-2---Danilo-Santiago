@@ -161,34 +161,108 @@ class Sistema {
         console.log("\n" + JSON.stringify(multasRepo.listar_multas(), null, 2)); //concatenação de string com array
     }
     //método que altera status de multa
-        alterar_status_multa(){
-            let multas = multasRepo.listar_multas();
-    
-            let id_unico = requisicao.question("\nInsira o id_unico da multa que deseja alterar o status: ");
-    
-            let multa_escolhida = multas.find( multas => multas.id_unico === id_unico); //verifica a existência de uma multa com o id_unico informado
-    
-            let status_novo = requisicao.question("\nInsira o novo status da multa " + multa_escolhida.id_unico + ": ");
-    
-            multa_escolhida.status = status_novo; //muda status anterior para o fornecido acima
-    
-            //reescreve o arquivo multas.json
-            //Ao fazer a linha acima, o status da multa_escolhida já foi mudado na memória, porém não foi escrito no arquivo
-            //a linha abaixo atualiza o arquivo
-            fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
-    
-            console.log("\nSTATUS MUDADO COM SUCESSO!!\n");
-    
+    alterar_status_multa(){
+        let multas = multasRepo.listar_multas();
+
+        let id_unico = requisicao.question("\nInsira o id_unico da multa que deseja alterar o status: ");
+
+        let multa_escolhida = multas.find( multas => multas.id_unico === id_unico); //verifica a existência de uma multa com o id_unico informado
+
+        let status_novo = requisicao.question("\nInsira o novo status da multa " + multa_escolhida.id_unico + ": ");
+
+        multa_escolhida.status = status_novo; //muda status anterior para o fornecido acima
+
+        //reescreve o arquivo multas.json
+        //Ao fazer a linha acima, o status da multa_escolhida já foi mudado na memória, porém não foi escrito no arquivo
+        //a linha abaixo atualiza o arquivo
+        fs.writeFileSync("multas.json", JSON.stringify(multas, null, 2));
+
+        console.log("\nSTATUS MUDADO COM SUCESSO!!\n");
+
+        return;
+    }
+    alterar_dados_agente(agente){ //método que altera dados do agente
+        let opcao = requisicao.question(
+            "\nQual dado gostaria de mudar?\n " +
+            "Aperte 1: nome\n"+
+            "Aperte 2: email\n"+
+            "Aperte 3: senha\n"+
+            "Aperte 4: cpf\n"  
+        );
+
+        let agentes = agentesRepo.listar_agentes();
+        let agente_encontrado = agentes.find( a => a.id_unico === agente.id_unico); //verifica a existência de um agente "a" com id_unico igual ao id_unico do "agente"
+
+        switch(opcao){
+
+            case "1":
+
+                let nome = requisicao.question("\nQual seu novo nome? ")
+                agente_encontrado.nome = nome;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2)); //salva novo nome
+                Object.assign(agente, agente_encontrado); //altera os dados do agente para os dados do agente_encontrado
+                break;
+            
+            case "2":
+
+                let email = requisicao.question("\nQual seu novo email? ");
+                validarEMAIL(email);
+                agente_encontrado.email = email;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
+                Object.assign(agente, agente_encontrado);
+                break;
+
+            case "3":
+
+                let senha = requisicao.question("\nQual sua nova senha?" , {hideEchoBack:true});
+                agente_encontrado.senha = senha;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
+                Object.assign(agente, agente_encontrado);
+                break;
+            
+            case "4":
+
+                let cpf = requisicao.question("\nQual seu novo cpf? ")
+                agente_encontrado.cpf = cpf;
+                fs.writeFileSync("agentes.json", JSON.stringify(agentes, null, 2));
+                Object.assign(agente, agente_encontrado);
+                break;
+        }
+
+        console.log("\nDADOS ALTERADOS COM SUCESSO!!\n");
+
+        return;
+    }
+    //função que mostra multas do condutor logado
+    ver_minhas_multas(id_cliente) {
+
+        let multas = multasRepo.listar_multas();
+        let multas_encontradas = multas.filter( multa => multa.id_cliente === id_cliente); //verifica a existência de uma multa com o id_cliente igual ao id_cliente fonecido como parâmetro
+        //vale ressaltar que esse id_cliente é o id_unico do cliente, são a mesma sequência alfanumérica
+        //utiliza-se o filter e não o find pois podem ser mais de uma multa, o find mostra apenas 1
+
+
+        if (multas_encontradas.length === 0){ //verifica a existência de multas
+            console.log("\nNenhuma multa encontrada!\n")
             return;
         }
-    alterar_dados_agente(agente){
+
+        console.log(multas_encontradas); //print das multas do condutor logado
 
     }
-    ver_minhas_multas(){
+    cadastrar_veiculo(){ //cadastro de veículo
+        let placa = requisicao.question("\nQual a placa do veiculo? ");
+        let modelo = requisicao.question("Qual o modelo do veiculo? ");
+        let marca = requisicao.question("Qual a marca do veiculo? ");
+        let cor = requisicao.question("Qual a cor do veiculo? ");
 
-    }
-    cadastrar_veiculo(){
+        let veiculo = new Veiculo(placa, modelo, marca, cor); //criação de objeto da classe Veiculo
 
+        veiculosRepo.salvar_veiculo(veiculo); //chamada de função que salva informações do novo objeto em arquivo .json
+
+        console.log("\nCADASTRO REALIZADO COM SUCESSO!!\n");
+
+        console.log(veiculo); //print com informações do novo veículo
     }
     pagar_multa(){
 

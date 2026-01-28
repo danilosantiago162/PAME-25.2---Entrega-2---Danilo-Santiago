@@ -13,8 +13,9 @@ const {PaginaInicial} = require("../Interface_Usuario/PaginaInicial");
 function validarCPF(cpf){ 
     if (cpf.length !== 11){ // verificação de coerência no número cpf
         console.log("\nCPF INVÁLIDO!!");
-        PaginaInicial();
+        return false;
     }
+    return true
 }
 function validarEMAIL(email){
     if (!email.includes("@gmail.com")) { //verificação de coerência no email

@@ -1,5 +1,11 @@
 [
-    {
-        "id_unico": "47656999WA"
-    }
+  {
+    "id_unico": "47656999WA"
+  },
+  {
+    "placa": "KWO-5208",
+    "modelo": "MWD seal",
+    "marca": "BWD",
+    "cor": "preta"
+  }
 ]
