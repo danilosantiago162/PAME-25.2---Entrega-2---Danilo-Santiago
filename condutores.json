@@ -2,10 +2,28 @@
   {
     "id_unico": "47656999WA",
     "nome": "Danilo",
-    "cpf": "12345678988",
+    "cpf": "77788899900",
     "email": "d@gmail.com",
     "senha": "12",
-    "data_de_nascimento": "01/09/2002",
+    "data_de_nascimento": "10/02/1990",
+    "tipo": "condutor"
+  },
+  {
+    "id_unico": "40006780FR",
+    "nome": "Danilo",
+    "cpf": "12012012000",
+    "email": "dan@gmail.com",
+    "senha": "12",
+    "data_de_nascimento": "01/",
+    "tipo": "condutor"
+  },
+  {
+    "id_unico": "98541877WU",
+    "nome": "Erik",
+    "cpf": "15515515511",
+    "email": "e@gmail.com",
+    "senha": "12",
+    "data_de_nascimento": "06/09/1992",
     "tipo": "condutor"
   }
 ]

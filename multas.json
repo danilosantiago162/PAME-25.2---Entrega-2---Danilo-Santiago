@@ -6,5 +6,21 @@
     "valor": "400,00",
     "data_aplicacao": "28/1/2026",
     "status": "recorrida"
+  },
+  {
+    "id_unico": "32162502VU",
+    "id_cliente": "47656999WA",
+    "tipo_infracao": "Ultrapassou o sinal vermelho",
+    "valor": "300,00",
+    "data_aplicacao": "28/1/2026",
+    "status": "paga"
+  },
+  {
+    "id_unico": "28233703AD",
+    "id_cliente": "40006780FR",
+    "tipo_infracao": "Dire��o alcoolizado",
+    "valor": "1000,00",
+    "data_aplicacao": "28/1/2026",
+    "status": "pendente"
   }
 ]

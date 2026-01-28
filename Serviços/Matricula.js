@@ -4,9 +4,9 @@ function gerarNumMatricula() {
 
     while (true) { 
 
-        const numMatricula = Math.floor(10000000 + Math.random() * 90000000);
+        var numMatricula = Math.floor(10000000 + Math.random() * 90000000);
 
-        if (!AgentesRepo.buscarPorMatricula()){
+        if (!AgentesRepo.buscarPorMatricula(numMatricula)){
             return numMatricula;
         }
     }

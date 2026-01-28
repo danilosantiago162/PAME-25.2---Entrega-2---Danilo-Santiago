@@ -13,9 +13,7 @@ function PaginaInicial(sistema){
 
         if (opcao == "1"){
             sistema.cadastro();
-        }
-
-        if (opcao == "2"){
+        } else if (opcao == "2"){
             let usuario = sistema.login();
 
             if (!usuario){
@@ -28,12 +26,13 @@ function PaginaInicial(sistema){
             if (usuario.tipo === "agente") {
                 PaginaAgente(sistema, usuario);
             }  
-        }
-
-        if (opcao === "3") {
+        } else if (opcao === "3") {
             console.log("Encerrando o sistema...");
             process.exit(0);
+        } else {
+            console.log("\nOPCAO INVALIDA\n");
         }
+
     }
 }
 

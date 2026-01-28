@@ -13,7 +13,7 @@ function buscarPorId(id) {
     return listar_agentes().find(a => a.id_unico === id);
 }
 function buscarPorMatricula(numMatricula) {
-    return listar_agentes().find(a => a.numMatriculao === numMatricula);
+    return listar_agentes().find(a => a.numMatricula === numMatricula);
 }
 
 module.exports = { listar_agentes, salvar_agente, buscarPorId, buscarPorMatricula };

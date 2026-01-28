@@ -10,6 +10,15 @@ function salvar_condutor(condutor) {
     fs.writeFileSync("condutores.json", JSON.stringify(lista, null, 2));
 }
 function buscarPorId(id) {
-    return listar_condutores().find(c => c.id_unico === id);
+    const dados = listar_condutores().find(c => c.id_unico === id);
+    if (!dados) return null;
+
+    return new Condutor(
+        dados.id_unico,
+        dados.nome,
+        dados.cpf,
+        dados.email,
+        dados.senha
+    );
 }
 module.exports = { listar_condutores, salvar_condutor, buscarPorId};

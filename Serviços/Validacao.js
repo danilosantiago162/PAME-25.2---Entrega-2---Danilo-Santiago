@@ -8,20 +8,19 @@ const agentesRepo = require("../Repositorios/AgentesRepo");
 const multasRepo = require("../Repositorios/MultasRepo");
 const veiculosRepo = require("../Repositorios/VeiculosRepo");
 
-const {PaginaInicial} = require("../Interface_Usuario/PaginaInicial");
-
 function validarCPF(cpf){ 
     if (cpf.length !== 11){ // verificação de coerência no número cpf
         console.log("\nCPF INVÁLIDO!!");
         return false;
     }
-    return true
+    return true;
 }
 function validarEMAIL(email){
-    if (!email.includes("@gmail.com")) { //verificação de coerência no email
+    if (!email.includes("@" && ".com")) { //verificação de coerência no email
         console.log("Email inválido. Use um email @gmail.com");
-        return;
+        return false;
     }
+    return true;
 }
 //função que confere incoerência na data de nascimento
 function conferir_data_de_nascimento(data) {
@@ -76,5 +75,31 @@ function conferir_cpf_duplo_agente(cpf) {
     }
 }
 
+function verificar_email_duplo_agente(email) {
+    let agentes = agentesRepo.listar_agentes();
 
-module.exports = {validarCPF, validarEMAIL, validarDATAcadastro, conferir_cpf_duplo_condutor, conferir_cpf_duplo_agente};
+    let agente_encontrado = agentes.find(a => a.email === email);
+
+    if (agente_encontrado){
+        console.log("\nEMAIL já cadastrado!");
+        return true;
+    } else {
+        return false;
+    }
+}
+function verificar_email_duplo_condutor(email) {
+    let condutores = condutoresRepo.listar_condutores();
+
+    let condutor_encontrado = condutores.find(a => a.email === email);
+
+    if (condutor_encontrado){
+        console.log("\nEMAIL já cadastrado!");
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+module.exports = {validarCPF, validarEMAIL, validarDATAcadastro, conferir_cpf_duplo_condutor, conferir_cpf_duplo_agente, verificar_email_duplo_agente, verificar_email_duplo_condutor};

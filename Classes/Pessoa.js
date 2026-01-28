@@ -18,7 +18,7 @@ class Pessoa {
     static getSenha(){ 
         return this.senha;
     }
-    static getID(){
+    getID(){
         return this.id_unico;
     }
     setNome(nome){

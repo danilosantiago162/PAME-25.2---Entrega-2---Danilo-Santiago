@@ -18,28 +18,29 @@ function PaginaCondutor(sistema, condutor){
             ); 
         switch(opcao){
             case "1":
+
                 Condutor.ver_dados_condutor(condutor);
                 break;
             case "2":
-                sistema.ver_minhas_multas(Condutor.getID());
+                sistema.ver_minhas_multas(condutor.id_unico);
                 break;
             case "3":
                 sistema.cadastrar_veiculo();
                 break;
             case "4":
-                sistema.pagar_multa(Condutor.getID());
+                sistema.pagar_multa(condutor.id_unico);
                 break;
             case "5":
-                sistema.recorrer_multa(Condutor.getID());
+                sistema.recorrer_multa(condutor.id_unico);
                 break;
             case "6":
-                sistema.alterar_dados_condutor();
+                sistema.alterar_dados_condutor(condutor);
                 break; 
             case "0":
-                console.log("\nSaindo da página do condutor...");
+                console.log("\nSaindo da página do condutor...\n");
                 return;
             default:
-                console.log("opcao invalida");
+                console.log("\nOPCAO INVALIDA\n");
         }
     }
 }

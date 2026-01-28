@@ -42,6 +42,8 @@ function PaginaAgente(sistema, agente){
             case "0":
                 console.log("\nSaindo da página do condutor...");
                 return;
+            default:
+                console.log("\nOPCAO INVALIDA\n");
         }
     }
 }
