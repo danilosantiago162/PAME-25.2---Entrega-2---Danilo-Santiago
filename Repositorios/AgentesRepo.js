@@ -12,5 +12,8 @@ function salvar_agente(agente) {
 function buscarPorId(id) {
     return listar().find(a => a.id_unico === id);
 }
+function buscarPorMatricula(numMatricula) {
+    return listar().find(a => a.numMatriculao === numMatricula);
+}
 
-module.exports = { listar_agentes, salvar_agente, buscarPorId};
+module.exports = { listar_agentes, salvar_agente, buscarPorId, buscarPorMatricula };
