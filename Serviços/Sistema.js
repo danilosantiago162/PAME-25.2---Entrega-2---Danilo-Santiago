@@ -58,7 +58,6 @@ class Sistema {
 
                 console.log("\nCadastro realizado com sucesso!!\n");
 
-                console.log(condutor); //print do novo condutor
                 } 
             return true;
         }
@@ -77,7 +76,6 @@ class Sistema {
 
             console.log("Cadastro realizado com sucesso!!");
 
-            console.log(agente); //print do novo agente
             }
             return true;
         }
@@ -127,17 +125,36 @@ class Sistema {
                 break;
         }
     }
-    ver_dados_agente(){
-
-    }
     ver_lista_veiculos(){
-
+        console.log("\n" + JSON.stringify(veiculosRepo.listar_veiculos(), null, 2)); //concatenação de string com array
     }
     ver_lista_condutores(){
-
+        console.log("\n" + JSON.stringify(condutoresRepo.listar_condutores(), null, 2)); //concatenação de string com array
     }
+    //método para aplicação de multa
     aplicar_multa(){
 
+        let id_unico = gerarIdUnico();
+
+        let id_cliente = requisicao.question("\nInsira o id_unico do multado: ");
+        let tipo_infracao = requisicao.question("Qual o tipo de infracao? ");
+        let valor = requisicao.question("Qual o valor da infracao? "); 
+
+        const dia = new Date().getDate(); //pega dia de hoje
+        const mes = new Date().getMonth() + 1; //pega o mês atual
+        const ano = new Date().getFullYear(); //pega o ano atual
+
+        let data_aplicacao = `${dia}/${mes}/${ano}`;
+
+        let status = requisicao.question("Insira o status da multa: ");
+
+        let multa = new Multa(id_unico, id_cliente, tipo_infracao, valor, data_aplicacao, status); //criação de objeto da classe Multa
+
+        multasRepo.salvar_multa(multa); //chamada de método que salva as informações do novo objeto no arquivo multas.json
+
+        console.log("\nMULTA APLICADA COM SUCESSO!!\n");
+
+        console.log(multa); //print da nova multa
     }
     ver_multas(){
 
@@ -146,9 +163,6 @@ class Sistema {
 
     }
     alterar_dados_agente(agente){
-
-    }
-    ver_dados_condutor(condutor){
 
     }
     ver_minhas_multas(){

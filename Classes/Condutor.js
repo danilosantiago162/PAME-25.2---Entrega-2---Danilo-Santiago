@@ -13,5 +13,13 @@ class Condutor extends Pessoa{
     setDataNascimento(data){
         this.data_de_nascimento = data;
     }
+    static ver_dados_condutor(condutor){
+        console.log(
+            "\nNome: " + condutor.nome + "\n" +
+            "CPF: " + condutor.cpf + "\n" +
+            "Email: " + condutor.email + "\n" +
+            "Data de Nascimento: " + condutor.data_de_nascimento + "\n"
+        );
+    }
 }
 module.exports = Condutor;

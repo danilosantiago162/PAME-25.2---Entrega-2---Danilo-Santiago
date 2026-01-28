@@ -14,6 +14,15 @@ class Agente extends Pessoa{
     setNumMatricula(n) {
         this.numero_matricula = n
     }
+    static ver_dados_agente(agente){
+        console.log(
+            "\nNome: " + agente.nome + "\n" +
+            "CPF: " + agente.cpf + "\n" +
+            "Email: " + agente.email + "\n" +
+            "Numero de Matricula: " + agente.numero_matricula + "\n"
+        );
+    }
+    
 }
 
 module.exports = Agente;

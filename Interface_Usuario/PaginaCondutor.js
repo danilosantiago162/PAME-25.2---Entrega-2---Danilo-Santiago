@@ -1,3 +1,7 @@
+let requisicao = require("readline-sync");
+const Agente = require("../Classes/Agente");
+const Condutor = require("../Classes/Condutor");
+
 //Página do condutor logado
 function PaginaCondutor(sistema, condutor){
 
@@ -14,7 +18,7 @@ function PaginaCondutor(sistema, condutor){
             ); 
         switch(opcao){
             case "1":
-                sistema.ver_dados_condutor(condutor);
+                Condutor.ver_dados_condutor(condutor);
                 break;
             case "2":
                 sistema.ver_minhas_multas();

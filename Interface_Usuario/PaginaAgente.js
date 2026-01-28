@@ -1,3 +1,6 @@
+let requisicao = require("readline-sync");
+const Agente = require("../Classes/Agente");
+
 //Página do agente
 function PaginaAgente(sistema, agente){
 
@@ -11,12 +14,12 @@ function PaginaAgente(sistema, agente){
             "Aperte 5: Ver multas \n"+
             "Aperte 6: Alterar status da multa\n"+
             "Aperte 7: Alterar meus dados\n"+
-            "Aperte 0: Voltar a Pagina Inicial"
+            "Aperte 0: Voltar a Pagina Inicial\n"
             );
     
         switch(opcao){
             case "1":
-                sistema.ver_dados_agente(agente);
+                Agente.ver_dados_agente(agente);
                 break;
             case "2":
                 sistema.ver_lista_veiculos();
